@@ -20,6 +20,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        val apiUrl = providers.environmentVariable("COFFEE_1706_API_URL")
+            .getOrElse("http://212.41.30.90:35005/")
+        buildConfigField("String", "COFFEE_1706_API_URL", "\"$apiUrl\"")
     }
 
     signingConfigs {
@@ -54,6 +57,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -89,11 +93,14 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.datastore.preferences)
     implementation(libs.hilt)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.navigation.compose)
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlinx.serialization)
 
     implementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)

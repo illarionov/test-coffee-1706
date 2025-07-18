@@ -12,7 +12,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.coffe1706.BuildConfig
 import com.example.coffe1706.core.authmanager.AuthManager
-import com.example.coffe1706.core.ui.theme2.Coffee1706Theme
+import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

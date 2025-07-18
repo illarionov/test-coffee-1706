@@ -15,7 +15,7 @@ internal fun NavGraphBuilder.authNavGraph(
     navController: NavHostController
 ) {
     navigation<AuthDestination>(startDestination = LoginDestination) {
-        composable<LoginDestination> { LoginScreen(onLoginSuccess = {}, onRegister = {}) }
+        composable<LoginDestination> { LoginScreen(onLogin = {}, onRegister = {}) }
         composable<RegisterDestination> { RegisterScreen(onRegisterSuccess = {}) }
     }
 }

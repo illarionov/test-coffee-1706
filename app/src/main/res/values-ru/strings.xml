@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_register_field_title_e_mail">E-Mail</string>
+    <string name="login_register_field_title_password">Пароль</string>
+    <string name="app_name">Coffee 1706</string>
+    <string name="button_login">Войти</string>
+    <string name="button_register">Register</string>
+</resources>

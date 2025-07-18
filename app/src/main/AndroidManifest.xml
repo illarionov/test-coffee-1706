@@ -18,7 +18,9 @@
         <activity
             android:name=".feature.root.presentation.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Coffee1706">
+            android:theme="@style/Theme.Coffee1706"
+            android:windowSoftInputMode="adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

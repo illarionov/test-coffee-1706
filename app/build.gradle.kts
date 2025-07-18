@@ -62,7 +62,10 @@ android {
 }
 
 kotlin.compilerOptions {
-    optIn.add("kotlin.time.ExperimentalTime")
+    optIn.addAll(
+        "kotlin.time.ExperimentalTime",
+        "androidx.compose.material3.ExperimentalMaterial3Api",
+    )
 }
 
 composeCompiler {
@@ -89,7 +92,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material.icons.core)
-    implementation(libs.androidx.material2)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)

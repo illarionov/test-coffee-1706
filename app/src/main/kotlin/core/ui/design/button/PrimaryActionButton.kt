@@ -1,4 +1,4 @@
-package com.example.coffe1706.core.ui.button
+package com.example.coffe1706.core.ui.design.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PrimaryActionButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = ButtonDefaults.shape,
     colors: ButtonColors = ButtonDefaults.buttonColors(),
@@ -33,7 +33,7 @@ fun PrimaryActionButton(
     text: String,
 ) = Button(
     onClick = onClick,
-    modifier = modifier,
+    modifier = modifier.fillMaxWidth(),
     enabled = enabled,
     shape = shape,
     colors = colors,

@@ -3,8 +3,8 @@ package com.example.coffe1706.data.coffee1706api.datasource
 import com.example.coffe1706.core.model.LatLon
 import com.example.coffe1706.core.model.Location
 import com.example.coffe1706.core.model.LocationId
-import com.example.coffe1706.core.model.LocationMenuItem
-import com.example.coffe1706.core.model.LocationMenuItemId
+import com.example.coffe1706.core.model.MenuItem
+import com.example.coffe1706.core.model.MenuItemId
 import com.example.coffe1706.core.model.auth.AuthToken
 import com.example.coffe1706.core.model.auth.AuthTokenId
 import com.example.coffe1706.data.coffee1706api.retrofit.service.LatLonDto
@@ -28,8 +28,8 @@ internal fun LatLonDto.toLatLon() = LatLon(
     longitude = longitude,
 )
 
-internal fun LocationMenuItemDto.toLocationMenuItem(): LocationMenuItem = LocationMenuItem(
-    id = LocationMenuItemId(this.id),
+internal fun LocationMenuItemDto.toLocationMenuItem(): MenuItem = MenuItem(
+    id = MenuItemId(this.id),
     name = name,
     imageUrl = imageUrl,
     price = price,

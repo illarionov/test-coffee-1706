@@ -3,5 +3,31 @@
     <string name="login_register_field_title_e_mail">E-Mail</string>
     <string name="login_register_field_title_password">Password</string>
     <string name="button_login">Login</string>
+    <string name="button_navigate_to_register">Register</string>
+    <string name="login_register_field_title_reenter_password">Re-enter password</string>
     <string name="button_register">Register</string>
+    <string name="button_navigate_to_login">Login</string>
+    <string name="button_show_on_map">Show on map</string>
+    <string name="message_no_coffee_shops_nearby">There are no coffee shops nearby</string>
+    <string name="message_no_menu_items">Nothing is available right now — we’re already working on it!</string>
+    <string name="button_proceed_to_payment">Proceed to Payment</string>
+    <string name="price_rub">%1$s rub</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="remove_from_cart">Remove from cart</string>
+    <string name="estimated_time_thank_for_choosing_us">Estimated wait time:\n15 minutes.\nThank you for choosing us!</string>
+    <string name="button_checkout">Checkout</string>
+    <plurals name="meters_from_you">
+        <item quantity="zero">Less than a meter from you</item>
+        <item quantity="one">%d meter from you</item>
+        <item quantity="few">%d meters from you</item>
+        <item quantity="many">%d meters from you</item>
+        <item quantity="other">%d meters from you</item>
+    </plurals>
+    <plurals name="kilometers_from_you">
+        <item quantity="zero">Less than a kilometer from you</item>
+        <item quantity="one">%s kilometer from you</item>
+        <item quantity="few">%s kilometers from you</item>
+        <item quantity="many">%s kilometers from you</item>
+        <item quantity="other">%s kilometers from you</item>
+    </plurals>
 </resources>

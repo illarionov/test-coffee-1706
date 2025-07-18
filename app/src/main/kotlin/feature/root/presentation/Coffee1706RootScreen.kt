@@ -1,5 +1,6 @@
 package com.example.coffe1706.feature.root.presentation
 
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -25,10 +26,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.coffe1706.core.model.LocationId
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import com.example.coffe1706.feature.auth.presentation.authNavGraph
 import com.example.coffe1706.feature.coffeeshop.presentation.coffeShopNavGraph
-import com.example.coffe1706.feature.coffeeshops.presentation.CoffeeShopsScreen
+import com.example.coffe1706.feature.nearestcoffeeshops.presentation.NearestCoffeeShopsScreen
+import com.example.coffe1706.feature.root.presentation.TopLevelDestination.Auth
+import com.example.coffe1706.feature.root.presentation.TopLevelDestination.CoffeeShop
+import com.example.coffe1706.feature.root.presentation.TopLevelDestination.NearestCoffeeShops
 
 @Composable
 internal fun Coffee1706RootScreen(
@@ -56,23 +61,36 @@ internal fun Coffee1706RootScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
-        val startDestination = if (isUserLoggedIn) CoffeeShopsDestination else AuthDestination
-        NavHost(
-            navController = navController,
-            startDestination = startDestination,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
-                .windowInsetsPadding(
-                    WindowInsets.safeDrawing.only(
-                        WindowInsetsSides.Horizontal,
+        SharedTransitionLayout {
+            val startDestination = if (isUserLoggedIn) NearestCoffeeShops else Auth
+            NavHost(
+                navController = navController,
+                startDestination = startDestination,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .consumeWindowInsets(paddingValues)
+                    .windowInsetsPadding(
+                        WindowInsets.safeDrawing.only(
+                            WindowInsetsSides.Horizontal,
+                        ),
                     ),
-                ),
-        ) {
-            authNavGraph(navController = navController)
-            composable<CoffeeShopsDestination> { CoffeeShopsScreen(onMenuClick = {}, onOrderClick = {}) }
-            coffeShopNavGraph(navController = navController)
+            ) {
+                authNavGraph(
+                    navController = navController,
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                )
+                composable<NearestCoffeeShops> {
+                    NearestCoffeeShopsScreen(
+                        onLocationClick = { locationId: LocationId ->
+                            navController.navigate(route = CoffeeShop(locationId.id))
+                        },
+                        onShowOnMapClick = { /* TODO */ },
+                        locations = emptyList()
+                    )
+                }
+                coffeShopNavGraph(navController = navController)
+            }
         }
     }
 }

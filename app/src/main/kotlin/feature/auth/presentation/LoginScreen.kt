@@ -1,5 +1,9 @@
 package com.example.coffe1706.feature.auth.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
@@ -28,19 +32,21 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.coffe1706.R
-import com.example.coffe1706.core.ui.button.PrimaryActionButton
-import com.example.coffe1706.core.ui.textfield.BaseSecureTextField
-import com.example.coffe1706.core.ui.textfield.BaseTextField
+import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
+import com.example.coffe1706.core.ui.design.textfield.BaseSecureTextField
+import com.example.coffe1706.core.ui.design.textfield.BaseTextField
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 
 @Composable
 internal fun LoginScreen(
-    onRegister: () -> Unit,
+    onNavigateToRegister: () -> Unit,
     onLogin: () -> Unit,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    sharedTransitionScope: SharedTransitionScope,
     modifier: Modifier = Modifier,
     emailTextFieldState: TextFieldState = rememberTextFieldState(),
     passwordTextFieldState: TextFieldState = rememberTextFieldState(),
-) {
+) = with(sharedTransitionScope) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -51,9 +57,9 @@ internal fun LoginScreen(
     ) {
         Column(
             modifier = Modifier
-                .widthIn(max = 370.dp)
+                .widthIn(max = LoginRegisterUiDefaults.maxFormHeight)
                 .fillMaxSize()
-                .padding(horizontal = 18.dp, vertical = 24.dp),
+                .padding(LoginRegisterUiDefaults.screenPaddings),
             verticalArrangement = spacedBy(24.dp, alignment = CenterVertically),
             horizontalAlignment = CenterHorizontally,
         ) {
@@ -65,7 +71,12 @@ internal fun LoginScreen(
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next,
                 ),
-                modifier = Modifier.semantics { contentType = ContentType.EmailAddress },
+                modifier = Modifier
+                    .sharedElement(
+                        sharedTransitionScope.rememberSharedContentState(key = R.string.login_register_field_title_e_mail),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                    .semantics { contentType = ContentType.EmailAddress },
             )
 
             BaseSecureTextField(
@@ -75,17 +86,27 @@ internal fun LoginScreen(
                     keyboardType = KeyboardType.Password,
                     imeAction = ImeAction.Done,
                 ),
-                modifier = Modifier.semantics { contentType = ContentType.Password },
+                modifier = Modifier
+                    .sharedElement(
+                        sharedTransitionScope.rememberSharedContentState(key = R.string.login_register_field_title_password),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
+                    .semantics { contentType = ContentType.Password },
             )
 
             PrimaryActionButton(
                 onClick = onLogin,
                 text = stringResource(R.string.button_login),
+                modifier = Modifier
+                    .sharedBounds(
+                        sharedTransitionScope.rememberSharedContentState("login_register_button"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                    )
             )
             TextButton(
-                onClick = onRegister,
+                onClick = onNavigateToRegister,
                 modifier = Modifier.align(Alignment.End),
-            ) { Text(stringResource(R.string.button_register)) }
+            ) { Text(stringResource(R.string.button_navigate_to_register)) }
         }
     }
 }
@@ -93,10 +114,16 @@ internal fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewLoginScreen() {
-    Coffee1706Theme {
-        LoginScreen(
-            onRegister = {},
-            onLogin = {},
-        )
+    SharedTransitionLayout {
+        AnimatedVisibility(true) {
+            Coffee1706Theme {
+                LoginScreen(
+                    onNavigateToRegister = {},
+                    onLogin = {},
+                    animatedVisibilityScope = this@AnimatedVisibility,
+                    sharedTransitionScope = this@SharedTransitionLayout
+                )
+            }
+        }
     }
 }

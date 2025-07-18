@@ -1,5 +1,7 @@
 package com.example.coffe1706.core.model
 
+import kotlinx.serialization.Serializable
+
 data class Location(
     val id: LocationId,
     val name: String,
@@ -7,5 +9,6 @@ data class Location(
 )
 
 @JvmInline
+@Serializable
 public value class LocationId(val id: String)
 

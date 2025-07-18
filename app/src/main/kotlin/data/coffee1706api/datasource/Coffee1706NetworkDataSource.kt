@@ -2,7 +2,7 @@ package com.example.coffe1706.data.coffee1706api.datasource
 
 import com.example.coffe1706.core.model.Location
 import com.example.coffe1706.core.model.LocationId
-import com.example.coffe1706.core.model.LocationMenuItem
+import com.example.coffe1706.core.model.MenuItem
 import com.example.coffe1706.core.model.auth.AuthToken
 import com.example.coffe1706.core.model.response.Response
 import com.example.coffe1706.core.model.response.map
@@ -48,7 +48,7 @@ internal class Coffee1706NetworkDataSource @Inject constructor(
             }
     }
 
-    suspend fun getLocationMenu(locationId: LocationId): Response<List<LocationMenuItem>> {
+    suspend fun getLocationMenu(locationId: LocationId): Response<List<MenuItem>> {
         return service.getMenu(locationId.id).toResponse()
             .map { list ->
                 withContext(computationDispatcherContext) {

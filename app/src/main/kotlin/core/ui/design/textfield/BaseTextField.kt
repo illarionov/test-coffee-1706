@@ -1,4 +1,4 @@
-package com.example.coffe1706.core.ui.textfield
+package com.example.coffe1706.core.ui.design.textfield
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -99,7 +99,10 @@ fun BaseTextFieldPlaceholder(
     label: String,
     modifier: Modifier = Modifier,
 ) {
-    Text(label, modifier = modifier)
+    Text(
+        label,
+        modifier = modifier,
+    )
 }
 
 object BaseTextFieldDefaults {

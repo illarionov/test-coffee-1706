@@ -47,4 +47,9 @@ object Coffee1706Colors {
      * Цвет APP Bar
      */
     val SurfaceContainer = Gray10
+
+    /**
+     * Цвет поверхности элементов в списках
+     */
+    val SurfaceContainerSecondary = Brown20
 }

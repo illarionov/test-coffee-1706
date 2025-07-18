@@ -4,5 +4,28 @@
     <string name="login_register_field_title_password">Пароль</string>
     <string name="app_name">Coffee 1706</string>
     <string name="button_login">Войти</string>
-    <string name="button_register">Зарегистрироваться</string>
+    <string name="button_navigate_to_register">Зарегистрироваться</string>
+    <string name="login_register_field_title_reenter_password">Повторите пароль</string>
+    <string name="button_register">Регистрация</string>
+    <string name="button_navigate_to_login">Войти</string>
+    <string name="button_show_on_map">Показать на карте</string>
+    <string name="message_no_coffee_shops_nearby">Нет кофеен поблизости</string>
+    <string name="message_no_menu_items">Сейчас ничего не продаётся — мы уже работаем над этим!</string>
+    <string name="button_proceed_to_payment">Перейти к оплате</string>
+    <string name="price_rub">$1%s руб</string>
+    <string name="add_to_cart">Добавить в заказ</string>
+    <string name="remove_from_cart">Удалить из заказа</string>
+    <string name="estimated_time_thank_for_choosing_us">Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!</string>
+    <string name="button_checkout">Оплатить</string>
+    <plurals name="meters_from_you">
+        <item quantity="one">%d метр от вас</item>
+        <item quantity="few">%d метра от вас</item>
+        <item quantity="many">%d метров от вас</item>
+    </plurals>
+    <plurals name="kilometers_from_you">
+        <item quantity="one">%d километр от вас</item>
+        <item quantity="few">%d километра от вас</item>
+        <item quantity="many">%d километров от вас</item>
+        <item quantity="other">%d километра от вас</item>
+    </plurals>
 </resources>

@@ -65,6 +65,7 @@ kotlin.compilerOptions {
     optIn.addAll(
         "kotlin.time.ExperimentalTime",
         "androidx.compose.material3.ExperimentalMaterial3Api",
+        "androidx.compose.animation.ExperimentalSharedTransitionApi",
     )
 }
 
@@ -96,6 +97,8 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(libs.datastore.preferences)
     implementation(libs.hilt)
     implementation(libs.kotlinx.serialization.json)

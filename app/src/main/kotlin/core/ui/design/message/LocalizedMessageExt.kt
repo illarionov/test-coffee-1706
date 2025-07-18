@@ -1,4 +1,4 @@
-package com.example.coffe1706.core.ui.message
+package com.example.coffe1706.core.ui.design.message
 
 import android.content.res.Resources
 

@@ -18,8 +18,8 @@ private val LightColorScheme = lightColorScheme(
     surface = Coffee1706Colors.Background,
     surfaceContainer = Coffee1706Colors.SurfaceContainer,
     onSurface = Coffee1706Colors.TextColor,
+    onSurfaceVariant = Coffee1706Colors.TextColorLighter
 )
-
 
 @Composable
 fun Coffee1706Theme(

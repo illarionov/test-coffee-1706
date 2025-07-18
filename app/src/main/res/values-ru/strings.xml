@@ -4,5 +4,5 @@
     <string name="login_register_field_title_password">Пароль</string>
     <string name="app_name">Coffee 1706</string>
     <string name="button_login">Войти</string>
-    <string name="button_register">Register</string>
+    <string name="button_register">Зарегистрироваться</string>
 </resources>

@@ -4,10 +4,13 @@
 
 ## Стек
 
-Kotlin, Compose, Coroutines, MVVM, Hilt, Architecture Component (ViewModel), Clean Architecture…
+Kotlin, Compose, Coroutines, MVVM, Hilt, Architecture Component (ViewModel), Android architectoure (не Clean)…
 
-### Архитектурные соглашения
+
+
+### Замечания и архитектурные соглашения
 
 * Весь код находится в одном модуле — чтобы не тратить время на настройку многомодульности.
 Внутри модуля всё разложено по папкам, чтобы представить, как это могло бы выглядеть в многомодульной структуре.
-
+* Используем Material 2, а не Material 3, так как в дизайне используется Material 2. Для перехода на Material 3 макеты должны быть обновлены в первую очередь.
+* Архитектура слоистая, но не Clean. Позволяем себе инжектить напрямую репозитории в ViewModel без UseCase.

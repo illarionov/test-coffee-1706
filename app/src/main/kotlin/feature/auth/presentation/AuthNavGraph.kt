@@ -4,7 +4,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.coffe1706.feature.login.presentation.LoginScreen
 import com.example.coffe1706.feature.root.presentation.AuthDestination
 import kotlinx.serialization.Serializable
 

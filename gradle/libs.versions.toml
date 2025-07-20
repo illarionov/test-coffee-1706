@@ -15,6 +15,7 @@ hilt = "2.57"
 kotlinxSerializationJson = "1.9.0"
 ksp = "2.2.0-2.0.2"
 navigation = "2.9.2"
+hilt-navigation-compose = "1.2.0"
 okhttp = "5.1.0"
 retrofit = "3.0.0"
 
@@ -41,6 +42,7 @@ datastore-preferences = { group = "androidx.datastore", name = "datastore-prefer
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }

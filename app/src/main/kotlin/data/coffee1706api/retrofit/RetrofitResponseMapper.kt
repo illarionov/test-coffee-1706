@@ -1,6 +1,25 @@
 package com.example.coffe1706.data.coffee1706api.retrofit
 
 import com.example.coffe1706.core.model.response.Response
+import kotlinx.coroutines.ensureActive
+import kotlinx.serialization.SerializationException
+import okio.IOException
+import kotlin.coroutines.coroutineContext
+
+internal suspend inline fun <T: Any> runRetrofitRequest(
+    crossinline block: suspend () -> retrofit2.Response<T>
+): Response<T> {
+    return try {
+        block().toResponse()
+    } catch (ioe: IOException) {
+        return Response.Failure.NetworkFailure(ioe)
+    } catch (se: SerializationException) {
+        return Response.Failure.ApiFailure(se)
+    } catch (re: RuntimeException) {
+        coroutineContext.ensureActive()
+        return Response.Failure.UnknownFailure(re)
+    }
+}
 
 internal fun <T: Any> retrofit2.Response<T>.toResponse(): Response<T> {
     val body = this.body()

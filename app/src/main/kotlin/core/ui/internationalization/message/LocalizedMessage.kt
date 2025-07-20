@@ -1,4 +1,4 @@
-package com.example.coffe1706.core.ui.design.message
+package com.example.coffe1706.core.ui.internationalization.message
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable

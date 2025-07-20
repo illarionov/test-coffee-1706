@@ -1,4 +1,4 @@
-package com.example.coffe1706.core.ui.design.formatter.distance
+package com.example.coffe1706.core.ui.internationalization.formatter.distance
 
 import android.content.res.Resources
 import com.example.coffe1706.R

@@ -1,9 +1,9 @@
 package com.example.coffe1706.data.fixtures
 
 import com.example.coffe1706.core.model.Location
-import com.example.coffe1706.core.ui.design.formatter.distance.CoarseDistance
-import com.example.coffe1706.core.ui.design.formatter.distance.CoarseDistance.Companion.kilometers
-import com.example.coffe1706.core.ui.design.formatter.distance.CoarseDistance.Companion.meters
+import com.example.coffe1706.core.ui.internationalization.formatter.distance.CoarseDistance
+import com.example.coffe1706.core.ui.internationalization.formatter.distance.CoarseDistance.Companion.kilometers
+import com.example.coffe1706.core.ui.internationalization.formatter.distance.CoarseDistance.Companion.meters
 import com.example.coffe1706.feature.nearestcoffeeshops.presentation.NearestLocation
 
 object NearestLocationFixtures {

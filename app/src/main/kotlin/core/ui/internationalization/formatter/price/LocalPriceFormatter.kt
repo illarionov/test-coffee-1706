@@ -1,4 +1,4 @@
-package com.example.coffe1706.core.ui.design.formatter.price
+package com.example.coffe1706.core.ui.internationalization.formatter.price
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidableCompositionLocal

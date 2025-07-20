@@ -1,7 +1,7 @@
 package com.example.coffe1706.core.model.response
 
 public sealed class Response<out T: Any> {
-    public data class Success<out T: Any>(val result: T) : Response<T>()
+    public data class Success<out T: Any>(val value: T) : Response<T>()
 
     public sealed class Failure : Response<Nothing>() {
         /**
@@ -48,6 +48,6 @@ public sealed class Response<out T: Any> {
 }
 
 suspend inline fun <T : Any, R: Any> Response<T>.map(crossinline block: suspend (T) -> R): Response<R> = when (this) {
-    is Response.Success<T> -> Response.Success(block(this.result))
+    is Response.Success<T> -> Response.Success(block(this.value))
     is Response.Failure -> this
 }

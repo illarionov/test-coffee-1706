@@ -1,4 +1,4 @@
-package com.example.coffe1706.data.coffee1706api.okhttp
+package com.example.coffe1706.data.coffee1706api.retrofit.okhttp
 
 import com.example.coffe1706.core.model.auth.AuthTokenId
 import okhttp3.Interceptor

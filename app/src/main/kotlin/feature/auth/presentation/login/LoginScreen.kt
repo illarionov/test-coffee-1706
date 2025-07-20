@@ -1,4 +1,4 @@
-package com.example.coffe1706.feature.auth.presentation
+package com.example.coffe1706.feature.auth.presentation.login
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -31,22 +32,53 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coffe1706.R
 import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
 import com.example.coffe1706.core.ui.design.textfield.BaseSecureTextField
 import com.example.coffe1706.core.ui.design.textfield.BaseTextField
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
+import com.example.coffe1706.feature.auth.presentation.LoginRegisterUiDefaults
 
 @Composable
-fun RegisterScreen(
-    onSendRegisterForm: () -> Unit,
-    onNavigateToLogin: () -> Unit,
+internal fun LoginScreen(
+    onNavigateToRegister: () -> Unit,
+    onLoginSuccess: () -> Unit,
     animatedVisibilityScope: AnimatedVisibilityScope,
     sharedTransitionScope: SharedTransitionScope,
     modifier: Modifier = Modifier,
-    emailTextFieldState: TextFieldState = rememberTextFieldState(),
-    passwordTextFieldState: TextFieldState = rememberTextFieldState(),
-    reenterPasswordTextFieldState: TextFieldState = rememberTextFieldState(),
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+    LaunchedEffect(viewModel.labels) {
+        viewModel.labels.collect { label ->
+            when (label) {
+                LoginViewModel.Label.LoginSuccess -> onLoginSuccess()
+            }
+        }
+    }
+
+    LoginScreen(
+        onNavigateToRegister = onNavigateToRegister,
+        onLogin = viewModel::login,
+        animatedVisibilityScope = animatedVisibilityScope,
+        sharedTransitionScope = sharedTransitionScope,
+        emailTextFieldState = viewModel.emailTextFieldState,
+        passwordTextFieldState = viewModel.passwordTextFieldState,
+        isLoading = viewModel.isLoading,
+        modifier = modifier,
+    )
+}
+
+@Composable
+internal fun LoginScreen(
+    onNavigateToRegister: () -> Unit,
+    onLogin: () -> Unit,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+    sharedTransitionScope: SharedTransitionScope,
+    emailTextFieldState: TextFieldState,
+    passwordTextFieldState: TextFieldState,
+    isLoading: Boolean,
+    modifier: Modifier = Modifier,
 ) = with(sharedTransitionScope) {
     Column(
         modifier = modifier
@@ -85,7 +117,7 @@ fun RegisterScreen(
                 label = stringResource(R.string.login_register_field_title_password),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Next,
+                    imeAction = ImeAction.Done,
                 ),
                 modifier = Modifier
                     .sharedElement(
@@ -95,19 +127,10 @@ fun RegisterScreen(
                     .semantics { contentType = ContentType.Password },
             )
 
-            BaseSecureTextField(
-                state = reenterPasswordTextFieldState,
-                label = stringResource(R.string.login_register_field_title_reenter_password),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Password,
-                    imeAction = ImeAction.Done,
-                ),
-                modifier = Modifier.semantics { contentType = ContentType.Password },
-            )
-
             PrimaryActionButton(
-                onClick = onSendRegisterForm,
-                text = stringResource(R.string.button_register),
+                onClick = onLogin,
+                text = stringResource(R.string.button_login),
+                enabled = !isLoading,
                 modifier = Modifier
                     .sharedBounds(
                         sharedTransitionScope.rememberSharedContentState("login_register_button"),
@@ -115,9 +138,10 @@ fun RegisterScreen(
                     )
             )
             TextButton(
-                onClick = onNavigateToLogin,
+                onClick = onNavigateToRegister,
                 modifier = Modifier.align(Alignment.End),
-            ) { Text(stringResource(R.string.button_navigate_to_login)) }
+                enabled = !isLoading
+            ) { Text(stringResource(R.string.button_navigate_to_register)) }
         }
     }
 }
@@ -128,11 +152,14 @@ private fun PreviewLoginScreen() {
     SharedTransitionLayout {
         AnimatedVisibility(true) {
             Coffee1706Theme {
-                RegisterScreen(
-                    onSendRegisterForm = {},
-                    onNavigateToLogin = {},
+                LoginScreen(
+                    onNavigateToRegister = {},
+                    onLogin = {},
                     animatedVisibilityScope = this@AnimatedVisibility,
                     sharedTransitionScope = this@SharedTransitionLayout,
+                    emailTextFieldState = rememberTextFieldState(),
+                    passwordTextFieldState = rememberTextFieldState(),
+                    isLoading = false,
                 )
             }
         }

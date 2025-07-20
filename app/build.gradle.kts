@@ -101,6 +101,7 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.datastore.preferences)
     implementation(libs.hilt)
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.navigation.compose)
     implementation(libs.okhttp)

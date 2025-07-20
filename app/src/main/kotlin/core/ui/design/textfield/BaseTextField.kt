@@ -60,6 +60,8 @@ fun BaseSecureTextField(
     label: String,
     modifier: Modifier = Modifier,
     placeholder: String? = null,
+    supportingText: String? = null,
+    isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     colors: TextFieldColors = BaseTextFieldDefaults.colors(),
     contentPadding: PaddingValues = BaseTextFieldDefaults.contentPadding(),
@@ -72,8 +74,16 @@ fun BaseSecureTextField(
         } else {
             null
         },
+        supportingText = if (supportingText != null) {
+            {
+                BaseTextFieldSupportingText(supportingText)
+            }
+        } else {
+            null
+        },
         labelPosition = BaseTextFieldDefaults.labelPosition,
         shape = BaseTextFieldDefaults.shape,
+        isError = isError,
         keyboardOptions = keyboardOptions,
         colors = colors,
         contentPadding = contentPadding,
@@ -96,6 +106,17 @@ fun PrimaryTextFieldLabel(
 
 @Composable
 fun BaseTextFieldPlaceholder(
+    label: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        label,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun BaseTextFieldSupportingText(
     label: String,
     modifier: Modifier = Modifier,
 ) {

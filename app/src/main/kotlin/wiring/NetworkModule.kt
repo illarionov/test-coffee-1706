@@ -3,8 +3,8 @@ package com.example.coffe1706.wiring
 import android.content.Context
 import com.example.coffe1706.BuildConfig
 import com.example.coffe1706.data.coffee1706api.datasource.Coffee1706SessionDataSource
-import com.example.coffe1706.data.coffee1706api.okhttp.AuthHeaderInterceptor
 import com.example.coffe1706.data.coffee1706api.retrofit.Coffee1706RetrofitFactory
+import com.example.coffe1706.data.coffee1706api.retrofit.okhttp.AuthHeaderInterceptor
 import com.example.coffe1706.data.coffee1706api.retrofit.service.Coffee1706Service
 import dagger.Module
 import dagger.Provides
@@ -47,7 +47,7 @@ public object NetworkModule {
         json: Json,
         @Coffee1706Client baseUrl: String,
     ): Retrofit {
-        return Coffee1706RetrofitFactory.createRetrofit(okhttpClient.get(), json, baseUrl)
+        return Coffee1706RetrofitFactory.createRetrofit(okhttpClient::get, json, baseUrl)
     }
 
     @Provides
@@ -119,7 +119,8 @@ public object NetworkModule {
     fun providesLoggingInterceptor(): Interceptor? {
         return if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().apply {
-                setLevel(HttpLoggingInterceptor.Level.HEADERS)
+                // setLevel(HttpLoggingInterceptor.Level.HEADERS)
+                setLevel(HttpLoggingInterceptor.Level.BODY)
             }
         } else {
             null

@@ -1,6 +1,8 @@
 package com.example.coffe1706
 
 import android.app.Application
+import android.os.Build
+import android.os.StrictMode
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
@@ -26,15 +28,54 @@ class Coffee1706Application : SingletonImageLoader.Factory, Application() {
             .newImageLoader(context)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        setupStrictMode()
+    }
+
+    private companion object {
+        private fun setupStrictMode() {
+            if (!BuildConfig.DEBUG) return
+
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder().detectAll().build(),
+            )
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder().apply {
+                    detectActivityLeaks()
+                    detectNonSdkApiUsage()
+                    detectContentUriWithoutPermission()
+                    detectFileUriExposure()
+                    detectLeakedClosableObjects()
+                    detectLeakedRegistrationObjects()
+                    detectLeakedSqlLiteObjects()
+
+                    if (Build.VERSION.SDK_INT >= 29) {
+                        detectImplicitDirectBoot()
+                        detectCredentialProtectedWhileLocked()
+                    }
+                    if (Build.VERSION.SDK_INT >= 31) {
+                        detectUnsafeIntentLaunch()
+                        detectIncorrectContextUse()
+                    }
+                    if (Build.VERSION.SDK_INT >= 36) {
+                        detectBlockedBackgroundActivityLaunch()
+                    }
+                }.build(),
+            )
+
+        }
+    }
+
     class CoilImageLoaderFactory @Inject constructor(
-        @param:RootOkhttpClient val rootOkhttpClient: Provider<OkHttpClient>
+        @param:RootOkhttpClient val rootOkhttpClient: Provider<OkHttpClient>,
     ) : SingletonImageLoader.Factory {
         override fun newImageLoader(context: PlatformContext): ImageLoader {
             val coilOkhttpClient = rootOkhttpClient.get().newBuilder().build()
             return ImageLoader.Builder(context)
                 .components {
                     add(
-                        OkHttpNetworkFetcherFactory(callFactory = coilOkhttpClient)
+                        OkHttpNetworkFetcherFactory(callFactory = coilOkhttpClient),
                     )
                 }
                 .memoryCache {

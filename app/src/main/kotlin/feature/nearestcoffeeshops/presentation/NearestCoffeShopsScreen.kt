@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.coffe1706.R
 import com.example.coffe1706.core.model.LocationId
+import com.example.coffe1706.core.ui.component.CenterAlignedHugeMessage
 import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
-import com.example.coffe1706.core.ui.design.formatter.distance.localizedMessage
 import com.example.coffe1706.core.ui.design.list.Coffee1706ListItemDefaults
 import com.example.coffe1706.core.ui.design.list.TwoLineListItem
-import com.example.coffe1706.core.ui.component.CenterAlignedHugeMessage
+import com.example.coffe1706.core.ui.internationalization.formatter.distance.localizedMessage
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import com.example.coffe1706.core.ui.theme3.Coffee1706Typography
 import com.example.coffe1706.data.fixtures.NearestLocationFixtures

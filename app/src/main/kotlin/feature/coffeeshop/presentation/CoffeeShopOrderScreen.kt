@@ -26,9 +26,9 @@ import com.example.coffe1706.core.model.MenuItemId
 import com.example.coffe1706.core.ui.component.CenterAlignedHugeMessage
 import com.example.coffe1706.core.ui.components.QuantitySelector
 import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
-import com.example.coffe1706.core.ui.design.formatter.price.localizedPrice
 import com.example.coffe1706.core.ui.design.list.Coffee1706ListItemDefaults
 import com.example.coffe1706.core.ui.design.list.TwoLineListItem
+import com.example.coffe1706.core.ui.internationalization.formatter.price.localizedPrice
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import com.example.coffe1706.core.ui.theme3.Coffee1706Typography
 import com.example.coffe1706.data.fixtures.MenuItemFixtures

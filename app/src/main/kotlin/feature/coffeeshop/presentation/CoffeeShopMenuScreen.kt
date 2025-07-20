@@ -39,12 +39,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.coffe1706.R
-import com.example.coffe1706.core.model.MenuItem
 import com.example.coffe1706.core.model.MenuItemId
-import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
-import com.example.coffe1706.core.ui.components.QuantitySelector
-import com.example.coffe1706.core.ui.design.formatter.price.localizedPrice
 import com.example.coffe1706.core.ui.component.CenterAlignedHugeMessage
+import com.example.coffe1706.core.ui.components.QuantitySelector
+import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
+import com.example.coffe1706.core.ui.internationalization.formatter.price.localizedPrice
 import com.example.coffe1706.core.ui.theme3.Brown20
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import com.example.coffe1706.core.ui.theme3.Coffee1706Typography

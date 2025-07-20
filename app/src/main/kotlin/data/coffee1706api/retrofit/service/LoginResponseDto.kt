@@ -1,6 +1,10 @@
 package com.example.coffe1706.data.coffee1706api.retrofit.service
 
-public data class LoginResponseDto(
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class LoginResponseDto(
     val token: String,
-    val tokenLifeTime: Long,
+    @SerialName("tokenLifetime") val tokenLifeTime: Long,
 )

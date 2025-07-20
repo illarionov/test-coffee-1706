@@ -6,18 +6,18 @@ import com.example.coffe1706.core.model.MenuItem
 import com.example.coffe1706.core.model.auth.AuthToken
 import com.example.coffe1706.core.model.response.Response
 import com.example.coffe1706.core.model.response.map
+import com.example.coffe1706.data.coffee1706api.retrofit.runRetrofitRequest
 import com.example.coffe1706.data.coffee1706api.retrofit.service.Coffee1706Service
 import com.example.coffe1706.data.coffee1706api.retrofit.service.LocationDto
 import com.example.coffe1706.data.coffee1706api.retrofit.service.LocationMenuItemDto
 import com.example.coffe1706.data.coffee1706api.retrofit.service.LoginRequestDto
 import com.example.coffe1706.data.coffee1706api.retrofit.service.LoginResponseDto
-import com.example.coffe1706.data.coffee1706api.retrofit.toResponse
 import com.example.coffe1706.wiring.CoroutinesModule.ComputationDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-internal class Coffee1706NetworkDataSource @Inject constructor(
+class Coffee1706NetworkDataSource @Inject internal constructor(
     private val service: Coffee1706Service,
     @param:ComputationDispatcher private val computationDispatcherContext: CoroutineContext,
 ) {
@@ -25,35 +25,37 @@ internal class Coffee1706NetworkDataSource @Inject constructor(
         login: String,
         password: String,
     ): Response<AuthToken> {
-        return service.login(LoginRequestDto(login, password))
-            .toResponse()
-            .map(LoginResponseDto::toAuthToken)
+        return runRetrofitRequest {
+            service.login(LoginRequestDto(login, password))
+        }.map(LoginResponseDto::toAuthToken)
     }
 
     suspend fun register(
         login: String,
         password: String,
     ): Response<AuthToken> {
-        return service.register(LoginRequestDto(login, password))
-            .toResponse()
-            .map(LoginResponseDto::toAuthToken)
+        return runRetrofitRequest {
+            service.register(LoginRequestDto(login, password))
+        }.map(LoginResponseDto::toAuthToken)
     }
 
     suspend fun getLocations(): Response<List<Location>> {
-        return service.getLocations().toResponse()
-            .map { list ->
-                withContext(computationDispatcherContext) {
-                    list.map(LocationDto::toLocation)
-                }
+        return runRetrofitRequest {
+            service.getLocations()
+        }.map { list ->
+            withContext(computationDispatcherContext) {
+                list.map(LocationDto::toLocation)
             }
+        }
     }
 
     suspend fun getLocationMenu(locationId: LocationId): Response<List<MenuItem>> {
-        return service.getMenu(locationId.id).toResponse()
-            .map { list ->
-                withContext(computationDispatcherContext) {
-                    list.map(LocationMenuItemDto::toLocationMenuItem)
-                }
+        return runRetrofitRequest {
+            service.getMenu(locationId.id)
+        }.map { list ->
+            withContext(computationDispatcherContext) {
+                list.map(LocationMenuItemDto::toLocationMenuItem)
             }
+        }
     }
 }

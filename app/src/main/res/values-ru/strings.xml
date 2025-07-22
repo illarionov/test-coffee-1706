@@ -34,15 +34,18 @@
     <string name="screen_title_coffe_shop_menu">Меню</string>
     <string name="screen_title_coffee_shop_order">Ваш заказ</string>
     <string name="password_do_not_match">Пароли не совпадают</string>
+    <string name="location_permission_required">Чтобы показать ближайшие кофейни, нам нужно разрешение на доступ к вашему местоположению</string>
+    <string name="button_approve_location_permission">Approve</string>
+    <string name="error_failed_to_get_current_location">Unable to determine current location</string>
     <plurals name="meters_from_you">
         <item quantity="one">%d метр от вас</item>
         <item quantity="few">%d метра от вас</item>
         <item quantity="many">%d метров от вас</item>
     </plurals>
     <plurals name="kilometers_from_you">
-        <item quantity="one">%d километр от вас</item>
-        <item quantity="few">%d километра от вас</item>
-        <item quantity="many">%d километров от вас</item>
-        <item quantity="other">%d километра от вас</item>
+        <item quantity="one">%s км от вас</item>
+        <item quantity="few">%s км от вас</item>
+        <item quantity="many">%s км от вас</item>
+        <item quantity="other">%s км от вас</item>
     </plurals>
 </resources>

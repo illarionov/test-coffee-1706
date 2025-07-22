@@ -19,7 +19,7 @@ class CoarseDinstanceFormatter(
                 resources.getQuantityString(R.plurals.meters_from_you, distanceMeters, distanceMeters)
             }
             CoarseDistance.DistanceUnit.KILOMETERS -> {
-                val distanceKm = decimalFormat.format(distance.distance)
+                val distanceKm: String? = decimalFormat.format(distance.distance)
                 val intSamples = distance.distance.toInt() // XXX wrong
                 resources.getQuantityString(R.plurals.kilometers_from_you, intSamples, distanceKm)
             }

@@ -47,6 +47,8 @@ public sealed class Response<out T: Any> {
     }
 }
 
+fun Response.Failure.HttpFailure.isUnauthorized() = this.httpCode == 401
+
 suspend inline fun <T : Any, R: Any> Response<T>.map(crossinline block: suspend (T) -> R): Response<R> = when (this) {
     is Response.Success<T> -> Response.Success(block(this.value))
     is Response.Failure -> this

@@ -1,6 +1,7 @@
 package com.example.coffe1706.core.ui.internationalization.formatter.distance
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 /**
  * Приблизительное рассотояние для пользователя.
@@ -24,7 +25,7 @@ public class CoarseDistance private constructor(
         fun meters(distance: Int) = CoarseDistance(distance, DistanceUnit.METERS)
         fun kilometers(kilometers: Int) = CoarseDistance(kilometers, DistanceUnit.KILOMETERS)
         fun kilometers(kilometers: Double) = CoarseDistance(
-            BigDecimal(kilometers).setScale(1),
+            BigDecimal(kilometers).setScale(1, RoundingMode.HALF_DOWN),
             DistanceUnit.KILOMETERS
         )
     }

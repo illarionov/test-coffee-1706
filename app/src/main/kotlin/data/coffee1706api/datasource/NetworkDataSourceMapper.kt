@@ -18,7 +18,7 @@ internal fun LoginResponseDto.toAuthToken(): AuthToken = AuthToken(
 )
 
 internal fun LocationDto.toLocation(): Location = Location(
-    id = LocationId(this.id),
+    id = LocationId(this.id.toString()),
     name = name,
     position = point.toLatLon(),
 )

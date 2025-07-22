@@ -8,7 +8,7 @@ internal class AuthHeaderInterceptor(
     val tokenProvider: () -> AuthTokenId?,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = tokenProvider()
+        val token = tokenProvider()?.value
         val request = if (token != null) {
             chain.request()
                 .newBuilder()

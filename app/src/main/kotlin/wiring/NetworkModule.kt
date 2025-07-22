@@ -57,6 +57,7 @@ public object NetworkModule {
         @RootOkhttpClient rootOkhttpClient: dagger.Lazy<@JvmSuppressWildcards OkHttpClient>,
         cache: dagger.Lazy<@JvmSuppressWildcards Cache>,
         sessionDataSource: Coffee1706SessionDataSource,
+        @LoggingInterceptor loggingInterceptor: Interceptor?,
     ): OkHttpClient {
         val authHeaderInterceptor = AuthHeaderInterceptor(
             tokenProvider = sessionDataSource::getTokenBlocking
@@ -65,6 +66,11 @@ public object NetworkModule {
         return rootOkhttpClient.get().newBuilder()
             .cache(cache.get())
             .addInterceptor(authHeaderInterceptor)
+            .apply {
+                if (loggingInterceptor != null) {
+                    addInterceptor(loggingInterceptor)
+                }
+            }
             .build()
     }
 
@@ -87,30 +93,24 @@ public object NetworkModule {
     @Provides
     @Singleton
     @RootOkhttpClient
-    fun providesRootOkhttpClient(
-        @LoggingInterceptor loggingInterceptor: Interceptor?,
-    ): OkHttpClient {
+    fun providesRootOkhttpClient(): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            if (loggingInterceptor != null) {
-                connectTimeout(20.seconds.inWholeMilliseconds, TimeUnit.MILLISECONDS)
-                readTimeout(20.seconds.inWholeMilliseconds, TimeUnit.MILLISECONDS)
-                writeTimeout(20.seconds.inWholeMilliseconds, TimeUnit.MILLISECONDS)
-                connectionPool(
-                    ConnectionPool(
-                        maxIdleConnections = 10,
-                        keepAliveDuration = 2.minutes.inWholeMilliseconds,
-                        timeUnit = TimeUnit.MILLISECONDS,
-                    ),
-                )
-                dispatcher(
-                    Dispatcher().apply {
-                        maxRequestsPerHost = 10
-                    },
-                )
-                addInterceptor(loggingInterceptor)
-            }
+            connectTimeout(20.seconds.inWholeMilliseconds, TimeUnit.MILLISECONDS)
+            readTimeout(20.seconds.inWholeMilliseconds, TimeUnit.MILLISECONDS)
+            writeTimeout(20.seconds.inWholeMilliseconds, TimeUnit.MILLISECONDS)
+            connectionPool(
+                ConnectionPool(
+                    maxIdleConnections = 10,
+                    keepAliveDuration = 2.minutes.inWholeMilliseconds,
+                    timeUnit = TimeUnit.MILLISECONDS,
+                ),
+            )
+            dispatcher(
+                Dispatcher().apply {
+                    maxRequestsPerHost = 10
+                },
+            )
         }.build()
-
     }
 
     @Provides

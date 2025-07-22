@@ -100,6 +100,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.datastore.preferences)
+    implementation(libs.google.play.services.location)
     implementation(libs.hilt)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)

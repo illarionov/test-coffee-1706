@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class LocationDto(
-    val id: String,
+    val id: Long,
     val name: String,
     val point: LatLonDto,
 )

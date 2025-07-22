@@ -4,7 +4,7 @@ import com.example.coffe1706.core.model.Location
 import com.example.coffe1706.core.ui.internationalization.formatter.distance.CoarseDistance
 import com.example.coffe1706.core.ui.internationalization.formatter.distance.CoarseDistance.Companion.kilometers
 import com.example.coffe1706.core.ui.internationalization.formatter.distance.CoarseDistance.Companion.meters
-import com.example.coffe1706.feature.nearestcoffeeshops.presentation.NearestLocation
+import com.example.coffe1706.feature.nearestcoffeeshops.domain.NearestLocation
 
 object NearestLocationFixtures {
     val bedoefCoffee1 = LocationFixtures.bedoefCoffee1.toNearesLocation(kilometers(1))

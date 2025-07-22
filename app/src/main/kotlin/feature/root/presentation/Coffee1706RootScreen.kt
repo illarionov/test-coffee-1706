@@ -120,7 +120,6 @@ internal fun Coffee1706RootScreen(
                             navController.navigate(route = CoffeeShop(locationId.id))
                         },
                         onShowOnMapClick = { /* TODO */ },
-                        locations = emptyList(),
                     )
                 }
                 coffeShopNavGraph(navController = navController)

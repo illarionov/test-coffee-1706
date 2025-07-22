@@ -33,6 +33,9 @@
     <string name="screen_title_coffe_shop_menu">Menu</string>
     <string name="screen_title_coffee_shop_order">Your order</string>
     <string name="password_do_not_match">Password does not match</string>
+    <string name="location_permission_required">To show nearby coffee shops, we need access to your location</string>
+    <string name="button_approve_location_permission">Approve</string>
+    <string name="error_failed_to_get_current_location">Unable to determine current location</string>
     <plurals name="meters_from_you">
         <item quantity="zero">Less than a meter from you</item>
         <item quantity="one">%d meter from you</item>
@@ -42,9 +45,9 @@
     </plurals>
     <plurals name="kilometers_from_you">
         <item quantity="zero">Less than a kilometer from you</item>
-        <item quantity="one">%s kilometer from you</item>
-        <item quantity="few">%s kilometers from you</item>
-        <item quantity="many">%s kilometers from you</item>
-        <item quantity="other">%s kilometers from you</item>
+        <item quantity="one">%s km from you</item>
+        <item quantity="few">%s km from you</item>
+        <item quantity="many">%s km from you</item>
+        <item quantity="other">%s km from you</item>
     </plurals>
 </resources>

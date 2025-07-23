@@ -36,6 +36,8 @@
     <string name="location_permission_required">To show nearby coffee shops, we need access to your location</string>
     <string name="button_approve_location_permission">Approve</string>
     <string name="error_failed_to_get_current_location">Unable to determine current location</string>
+    <string name="order_accepted">Order accepted: %s</string>
+    <string name="button_navigate_up_content_description">Navigate up</string>
     <plurals name="meters_from_you">
         <item quantity="zero">Less than a meter from you</item>
         <item quantity="one">%d meter from you</item>

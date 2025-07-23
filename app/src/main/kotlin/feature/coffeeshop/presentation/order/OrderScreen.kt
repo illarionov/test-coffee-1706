@@ -41,8 +41,8 @@ import com.example.coffe1706.core.ui.theme3.Coffee1706Typography
 import com.example.coffe1706.data.fixtures.MenuItemFixtures
 
 @Composable
-internal fun CoffeeShopOrderScreen(
-    onCheckoutClick: () -> Unit,
+internal fun OrderScreen(
+    onComplete: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: OrderViewModel = hiltViewModel(),
 ) {
@@ -51,17 +51,20 @@ internal fun CoffeeShopOrderScreen(
     when (val currentState = state) {
         OrderScreenState.InitialLoad -> Placeholder(modifier = modifier)
         is OrderScreenState.LoadError -> Error(currentState.errorMessage, modifier = modifier)
-        is OrderScreenState.Success -> CoffeeShopOrderScreen(
+        is OrderScreenState.Success -> OrderScreen(
             items = currentState.menu,
             onQuantityChange = viewModel::setItemQuantity,
-            onCheckoutClick = onCheckoutClick,
+            onCheckoutClick = {
+                viewModel.checkout()
+                onComplete()
+            },
             modifier = modifier,
         )
     }
 }
 
 @Composable
-fun CoffeeShopOrderScreen(
+fun OrderScreen(
     items: List<OrderItemUiModel>,
     onQuantityChange: (MenuItemId, Quantity) -> Unit,
     onCheckoutClick: () -> Unit,
@@ -78,7 +81,7 @@ fun CoffeeShopOrderScreen(
             BottomPart(
                 onCheckoutClick = onCheckoutClick,
                 modifier = Modifier,
-                checkoutActive = remember(items) { items.any { it.quantity.value > 0 } }
+                checkoutActive = remember(items) { items.any { it.quantity.value > 0 } },
             )
         }
     }
@@ -185,7 +188,7 @@ private fun Error(
 private fun PreviewCoffeeShopOrderScreen_order() {
     Coffee1706Theme {
         Coffee1706Theme {
-            CoffeeShopOrderScreen(
+            OrderScreen(
                 items = listOf(
                     MenuItemFixtures.espresso.withQuantity(1),
                     MenuItemFixtures.cappuccino.withQuantity(1),
@@ -205,7 +208,7 @@ private fun PreviewCoffeeShopOrderScreen_order() {
 @Composable
 private fun PreviewCoffeeShopOrderScreen_empty_list() {
     Coffee1706Theme {
-        CoffeeShopOrderScreen(
+        OrderScreen(
             items = emptyList(),
             onQuantityChange = { _, _ -> },
             onCheckoutClick = { },

@@ -37,6 +37,8 @@
     <string name="location_permission_required">Чтобы показать ближайшие кофейни, нам нужно разрешение на доступ к вашему местоположению</string>
     <string name="button_approve_location_permission">Approve</string>
     <string name="error_failed_to_get_current_location">Unable to determine current location</string>
+    <string name="order_accepted">Заказ принят: %s</string>
+    <string name="button_navigate_up_content_description">В начало</string>
     <plurals name="meters_from_you">
         <item quantity="one">%d метр от вас</item>
         <item quantity="few">%d метра от вас</item>

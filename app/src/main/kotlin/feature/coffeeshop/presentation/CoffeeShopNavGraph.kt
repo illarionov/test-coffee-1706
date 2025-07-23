@@ -17,9 +17,9 @@ import androidx.navigation.toRoute
 import com.example.coffe1706.R
 import com.example.coffe1706.core.model.LocationId
 import com.example.coffe1706.feature.coffeeshop.presentation.menu.CoffeeShopMenuScreen
-import com.example.coffe1706.feature.coffeeshop.presentation.order.CoffeeShopOrderScreen
+import com.example.coffe1706.feature.coffeeshop.presentation.order.OrderScreen
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination.CoffeeShop
+import com.example.coffe1706.feature.root.presentation.CoffeeShop
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -68,8 +68,8 @@ internal fun NavGraphBuilder.coffeeShopNavGraph(
             }
         }
         composable<CoffeeShopOrderDestination> {
-            CoffeeShopOrderScreen(
-                onCheckoutClick = {
+            OrderScreen(
+                onComplete = {
                     navController.navigate(route = TopLevelDestination.NearestCoffeeShops) {
                         launchSingleTop = true
                         popUpTo(TopLevelDestination.NearestCoffeeShops) {

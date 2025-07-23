@@ -23,6 +23,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,7 +33,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
@@ -52,7 +53,6 @@ import com.example.coffe1706.feature.coffeeshop.presentation.coffeeShopNavGraph
 import com.example.coffe1706.feature.coffeeshop.presentation.getCoffeeShopGraphTile
 import com.example.coffe1706.feature.nearestcoffeeshops.presentation.NearestCoffeeShopsScreen
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.Auth
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination.CoffeeShop
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.NearestCoffeeShops
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
@@ -65,10 +65,15 @@ internal fun Coffee1706RootScreen(
     shoppingCartRepository: ShoppingCartRepository? = null,
     navController: NavHostController = rememberNavController(),
 ) {
-    // TODO: wrong
-    val isUserLoggedIn: Boolean by authManager.isUserLoggedIn.collectAsStateWithLifecycle(
-        initialValue = false,
-    )
+    val isUserLoggedIn: Boolean? by authManager.isUserLoggedIn.collectAsState(initial = null)
+    LaunchedEffect(isUserLoggedIn) {
+        if (isUserLoggedIn == false) {
+            navController.navigate(route = Auth) {
+                launchSingleTop = true
+                popUpTo(NearestCoffeeShops) { inclusive = true }
+            }
+        }
+    }
 
     val snackbarHostState = remember { SnackbarHostState() }
     subscribeToSnackbarsFlowWithLifecycle(snackbarController, snackbarHostState)
@@ -92,10 +97,8 @@ internal fun Coffee1706RootScreen(
                 },
                 navigationIcon = {
                     val backStackEntry by navController.currentBackStackEntryAsState()
-
                     val currentEntry = backStackEntry
-
-                    if (currentEntry != null && !currentEntry.destination.hasRoute<NearestCoffeeShops>()) {
+                    if (currentEntry != null && navController.previousBackStackEntry != null) {
                         IconButton(
                             onClick = {
                                 navController.navigate(route = NearestCoffeeShops) {
@@ -108,7 +111,7 @@ internal fun Coffee1706RootScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Localized description",
+                                contentDescription = stringResource(R.string.button_navigate_up_content_description),
                             )
                         }
                     }
@@ -129,7 +132,7 @@ internal fun Coffee1706RootScreen(
         val coroutineScope = rememberCoroutineScope()
 
         SharedTransitionLayout {
-            val startDestination = if (isUserLoggedIn) NearestCoffeeShops else Auth
+            val startDestination = NearestCoffeeShops
             NavHost(
                 navController = navController,
                 startDestination = startDestination,
@@ -161,7 +164,7 @@ internal fun Coffee1706RootScreen(
                         coroutineScope.launch {
                             shoppingCartRepository?.clear(locationId)
                         }
-                    }
+                    },
                 )
             }
         }

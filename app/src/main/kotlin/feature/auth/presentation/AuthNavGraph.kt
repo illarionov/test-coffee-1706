@@ -1,6 +1,7 @@
 package com.example.coffe1706.feature.auth.presentation
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.SharedTransitionScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
@@ -35,7 +36,9 @@ internal fun NavGraphBuilder.authNavGraph(
     sharedTransitionScope: SharedTransitionScope,
 ) {
     navigation<Auth>(startDestination = Login) {
-        composable<Login> { backStackEntry: NavBackStackEntry ->
+        composable<Login>(
+            enterTransition = { EnterTransition.None }
+        ) { backStackEntry: NavBackStackEntry ->
             LoginScreen(
                 onNavigateToRegister = {
                     navController.navigate(route = Register) {

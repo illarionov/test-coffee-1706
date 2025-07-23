@@ -10,7 +10,7 @@ import java.math.BigDecimal
 
 @Serializable
 internal data class LocationMenuItemDto(
-    val id: String,
+    val id: Long,
     val name: String,
     @SerialName("imageURL") val imageUrl: String,
     @Serializable(with = BigDecimalSerializer::class) val price: BigDecimal,

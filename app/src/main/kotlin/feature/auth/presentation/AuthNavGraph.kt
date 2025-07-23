@@ -44,6 +44,7 @@ internal fun NavGraphBuilder.authNavGraph(
                 },
                 onLoginSuccess = {
                     navController.navigate(route = NearestCoffeeShops) {
+                        launchSingleTop = true
                         popUpTo(route = Auth) { inclusive = true }
                     }
                 },
@@ -62,6 +63,7 @@ internal fun NavGraphBuilder.authNavGraph(
                 },
                 onRegisterSuccess = {
                     navController.navigate(route = NearestCoffeeShops) {
+                        launchSingleTop = true
                         popUpTo(route = Auth) { inclusive = true }
                     }
                 },

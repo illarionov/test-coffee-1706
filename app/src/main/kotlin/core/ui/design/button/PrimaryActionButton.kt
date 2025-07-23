@@ -41,5 +41,7 @@ fun PrimaryActionButton(
     border = border,
     contentPadding = contentPadding,
     interactionSource = interactionSource,
-) { Text(text) }
+) {
+    Text(text)
+}
 

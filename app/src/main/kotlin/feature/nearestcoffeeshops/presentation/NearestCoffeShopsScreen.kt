@@ -148,11 +148,13 @@ internal fun NearestCoffeeShopsScreen(
             PrimaryActionButton(
                 onClick = onShowOnMapClick,
                 text = stringResource(R.string.button_show_on_map),
-                modifier = Modifier.windowInsetsPadding(
-                    WindowInsets.safeContent
-                        .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
-                        .union(WindowInsets(left = 16.dp, right = 16.dp, bottom = 24.dp, top = 8.dp)),
-                ),
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 8.dp)
+                    .windowInsetsPadding(
+                        WindowInsets.safeContent
+                            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                            .union(WindowInsets(left = 16.dp, right = 16.dp, bottom = 24.dp)),
+                    ),
             )
         }
     }

@@ -84,8 +84,8 @@ fun RegisterScreen(
     passwordTextFieldState: TextFieldState,
     reenterPasswordTextFieldState: TextFieldState,
     reenterPasswordError: LocalizedMessage?,
-    isLoading: Boolean = false,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) = with(sharedTransitionScope) {
     Column(
         modifier = modifier

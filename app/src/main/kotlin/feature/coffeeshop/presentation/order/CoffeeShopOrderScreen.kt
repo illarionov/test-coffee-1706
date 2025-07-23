@@ -1,4 +1,4 @@
-package com.example.coffe1706.feature.coffeeshop.presentation
+package com.example.coffe1706.feature.coffeeshop.presentation.order
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -15,28 +15,55 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.coffe1706.R
 import com.example.coffe1706.core.model.MenuItemId
+import com.example.coffe1706.core.model.Quantity
 import com.example.coffe1706.core.ui.component.CenterAlignedHugeMessage
-import com.example.coffe1706.core.ui.components.QuantitySelector
+import com.example.coffe1706.core.ui.component.QuantitySelector
 import com.example.coffe1706.core.ui.design.button.PrimaryActionButton
 import com.example.coffe1706.core.ui.design.list.Coffee1706ListItemDefaults
 import com.example.coffe1706.core.ui.design.list.TwoLineListItem
 import com.example.coffe1706.core.ui.internationalization.formatter.price.localizedPrice
+import com.example.coffe1706.core.ui.internationalization.message.LocalizedMessage
+import com.example.coffe1706.core.ui.internationalization.message.stringResource
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import com.example.coffe1706.core.ui.theme3.Coffee1706Typography
 import com.example.coffe1706.data.fixtures.MenuItemFixtures
 
 @Composable
+internal fun CoffeeShopOrderScreen(
+    onCheckoutClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: OrderViewModel = hiltViewModel(),
+) {
+    val state: OrderScreenState by viewModel.state.collectAsStateWithLifecycle()
+
+    when (val currentState = state) {
+        OrderScreenState.InitialLoad -> Placeholder(modifier = modifier)
+        is OrderScreenState.LoadError -> Error(currentState.errorMessage, modifier = modifier)
+        is OrderScreenState.Success -> CoffeeShopOrderScreen(
+            items = currentState.menu,
+            onQuantityChange = viewModel::setItemQuantity,
+            onCheckoutClick = onCheckoutClick,
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
 fun CoffeeShopOrderScreen(
-    items: List<OrderCartItem>,
-    onItemCountChange: (MenuItemId, Int) -> Unit,
+    items: List<OrderItemUiModel>,
+    onQuantityChange: (MenuItemId, Quantity) -> Unit,
     onCheckoutClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -45,12 +72,13 @@ fun CoffeeShopOrderScreen(
         Column {
             Cart(
                 items,
-                onItemCountChange = onItemCountChange,
+                onQuantityChange = onQuantityChange,
                 modifier = Modifier.heightIn(max = listMaxHeight),
             )
             BottomPart(
                 onCheckoutClick = onCheckoutClick,
                 modifier = Modifier,
+                checkoutActive = remember(items) { items.any { it.quantity.value > 0 } }
             )
         }
     }
@@ -58,8 +86,8 @@ fun CoffeeShopOrderScreen(
 
 @Composable
 private fun Cart(
-    items: List<OrderCartItem>,
-    onItemCountChange: (MenuItemId, Int) -> Unit,
+    items: List<OrderItemUiModel>,
+    onQuantityChange: (MenuItemId, Quantity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val horizontalInsets = WindowInsets.safeContent
@@ -87,14 +115,14 @@ private fun Cart(
                 },
                 supportingContent = {
                     Text(
-                        localizedPrice(item.price * item.quantity.toBigDecimal()),
+                        localizedPrice(item.price * item.quantity.value.toBigDecimal()),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 },
                 trailingContent = {
                     QuantitySelector(
-                        onItemCountChange = onItemCountChange,
+                        onQuantityChange = onQuantityChange,
                         menuItemId = item.id,
                         quantity = item.quantity,
                         buttonsColor = MaterialTheme.colorScheme.onSurface,
@@ -111,10 +139,12 @@ private fun Cart(
 private fun BottomPart(
     modifier: Modifier = Modifier,
     onCheckoutClick: () -> Unit,
+    checkoutActive: Boolean,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(top = 8.dp, bottom = 8.dp)
             .windowInsetsPadding(
                 WindowInsets.safeContent
                     .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
@@ -128,9 +158,26 @@ private fun BottomPart(
         PrimaryActionButton(
             onClick = onCheckoutClick,
             text = stringResource(R.string.button_checkout),
+            enabled = checkoutActive,
             modifier = Modifier,
         )
     }
+}
+
+@Composable
+private fun Placeholder(
+    modifier: Modifier = Modifier,
+) = Unit
+
+@Composable
+private fun Error(
+    error: LocalizedMessage,
+    modifier: Modifier = Modifier,
+) {
+    CenterAlignedHugeMessage(
+        modifier = modifier.fillMaxSize(),
+        text = stringResource(error),
+    )
 }
 
 @Preview(showBackground = true)
@@ -140,15 +187,15 @@ private fun PreviewCoffeeShopOrderScreen_order() {
         Coffee1706Theme {
             CoffeeShopOrderScreen(
                 items = listOf(
-                    MenuItemFixtures.espresso.withCount(1),
-                    MenuItemFixtures.cappuccino.withCount(1),
-                    MenuItemFixtures.hotChocolate.withCount(2),
-                    MenuItemFixtures.latte.withCount(3),
-                    MenuItemFixtures.latte.withCount(0).copy(id = MenuItemId("5")),
-                    MenuItemFixtures.latte.withCount(4).copy(id = MenuItemId("6")),
+                    MenuItemFixtures.espresso.withQuantity(1),
+                    MenuItemFixtures.cappuccino.withQuantity(1),
+                    MenuItemFixtures.hotChocolate.withQuantity(2),
+                    MenuItemFixtures.latte.withQuantity(3),
+                    MenuItemFixtures.latte.withQuantity(0).copy(id = MenuItemId(5)),
+                    MenuItemFixtures.latte.withQuantity(4).copy(id = MenuItemId(6)),
                 ),
-                onItemCountChange = { _, _ -> },
                 onCheckoutClick = { },
+                onQuantityChange = { _, _ -> },
             )
         }
     }
@@ -160,7 +207,7 @@ private fun PreviewCoffeeShopOrderScreen_empty_list() {
     Coffee1706Theme {
         CoffeeShopOrderScreen(
             items = emptyList(),
-            onItemCountChange = { _, _ -> },
+            onQuantityChange = { _, _ -> },
             onCheckoutClick = { },
         )
     }

@@ -12,6 +12,7 @@ import com.example.coffe1706.BuildConfig
 import com.example.coffe1706.core.authmanager.AuthManager
 import com.example.coffe1706.core.ui.component.snackbar.SnackbarController
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
+import com.example.coffe1706.feature.coffeeshop.data.ShoppingCartRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject lateinit var authManager: AuthManager
     @Inject lateinit var snackbarController: SnackbarController
+    @Inject lateinit var shoppingCartRepository: ShoppingCartRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,8 @@ class MainActivity : ComponentActivity() {
                     snackbarController = snackbarController,
                     modifier = Modifier.semantics {
                         testTagsAsResourceId = BuildConfig.DEBUG
-                    }
+                    },
+                    shoppingCartRepository = shoppingCartRepository,
                 )
             }
         }

@@ -11,7 +11,11 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -21,6 +25,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -42,19 +47,22 @@ import com.example.coffe1706.core.ui.component.snackbar.subscribeToSnackbarsFlow
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
 import com.example.coffe1706.feature.auth.presentation.authNavGraph
 import com.example.coffe1706.feature.auth.presentation.getAuthNavGraphTile
-import com.example.coffe1706.feature.coffeeshop.presentation.coffeShopNavGraph
+import com.example.coffe1706.feature.coffeeshop.data.ShoppingCartRepository
+import com.example.coffe1706.feature.coffeeshop.presentation.coffeeShopNavGraph
 import com.example.coffe1706.feature.coffeeshop.presentation.getCoffeeShopGraphTile
 import com.example.coffe1706.feature.nearestcoffeeshops.presentation.NearestCoffeeShopsScreen
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.Auth
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.CoffeeShop
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.NearestCoffeeShops
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun Coffee1706RootScreen(
     authManager: AuthManager,
     snackbarController: SnackbarController,
     modifier: Modifier = Modifier,
+    shoppingCartRepository: ShoppingCartRepository? = null,
     navController: NavHostController = rememberNavController(),
 ) {
     // TODO: wrong
@@ -82,6 +90,29 @@ internal fun Coffee1706RootScreen(
                         text = title,
                     )
                 },
+                navigationIcon = {
+                    val backStackEntry by navController.currentBackStackEntryAsState()
+
+                    val currentEntry = backStackEntry
+
+                    if (currentEntry != null && !currentEntry.destination.hasRoute<NearestCoffeeShops>()) {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(route = NearestCoffeeShops) {
+                                    launchSingleTop = true
+                                    popUpTo(route = NearestCoffeeShops) {
+                                        inclusive = false
+                                    }
+                                }
+                            },
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Localized description",
+                            )
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surfaceContainer,
                     scrolledContainerColor = MaterialTheme.colorScheme.surface,
@@ -91,10 +122,12 @@ internal fun Coffee1706RootScreen(
         snackbarHost = {
             SnackbarHost(
                 snackbarHostState,
-                modifier = Modifier.imePadding()
+                modifier = Modifier.imePadding(),
             )
         },
     ) { paddingValues ->
+        val coroutineScope = rememberCoroutineScope()
+
         SharedTransitionLayout {
             val startDestination = if (isUserLoggedIn) NearestCoffeeShops else Auth
             NavHost(
@@ -122,7 +155,14 @@ internal fun Coffee1706RootScreen(
                         onShowOnMapClick = { /* TODO */ },
                     )
                 }
-                coffeShopNavGraph(navController = navController)
+                coffeeShopNavGraph(
+                    navController = navController,
+                    onMenuClosed = { locationId ->
+                        coroutineScope.launch {
+                            shoppingCartRepository?.clear(locationId)
+                        }
+                    }
+                )
             }
         }
     }
@@ -130,12 +170,12 @@ internal fun Coffee1706RootScreen(
 
 @StringRes
 private fun NavDestination?.getNavDestinationTitle(): Int? {
-    return when  {
+    return when {
         this == null -> null
         this.hasRoute<NearestCoffeeShops>() -> R.string.screen_title_nearest_coffee_shops
         else -> listOf(
             ::getAuthNavGraphTile,
-            ::getCoffeeShopGraphTile
+            ::getCoffeeShopGraphTile,
         ).firstNotNullOfOrNull { titleFunction ->
             titleFunction()
         }
@@ -150,7 +190,8 @@ private fun PreviewCoffee1706RootScreen() {
             authManager = object : AuthManager {
                 override val isUserLoggedIn = flowOf(false)
             },
-            snackbarController = SnackbarController()
+            snackbarController = SnackbarController(),
+            shoppingCartRepository = null,
         )
     }
 }

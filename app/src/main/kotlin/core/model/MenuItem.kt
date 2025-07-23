@@ -10,4 +10,4 @@ data class MenuItem(
 )
 
 @JvmInline
-public value class MenuItemId(val id: String)
+public value class MenuItemId(val id: Long)

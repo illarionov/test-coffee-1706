@@ -20,8 +20,8 @@ public fun Response.Failure.getCommonErrorMessage(): LocalizedMessage = when (th
     }
 
     is Response.Failure.NetworkFailure -> when {
-        this.error is java.net.UnknownHostException -> LocalizedMessage(R.string.response_error_no_internet_connection)
-        this.error is java.net.SocketException -> LocalizedMessage(R.string.response_error_no_internet_connection)
+        this.error is java.net.UnknownHostException
+                || this.error is java.net.SocketException -> LocalizedMessage(R.string.response_error_no_internet_connection)
         else -> LocalizedMessage(R.string.response_error_network_failure)
     }
 

@@ -1,5 +1,7 @@
 package com.example.coffe1706.core.ui.component
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -11,6 +13,10 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +32,7 @@ import com.example.coffe1706.core.model.Quantity
 import com.example.coffe1706.core.ui.icons.Remove
 import com.example.coffe1706.core.ui.theme3.Coffee1706Colors
 import com.example.coffe1706.core.ui.theme3.Coffee1706Typography
+import kotlinx.coroutines.delay
 
 @Composable
 fun QuantitySelector(
@@ -89,7 +96,20 @@ private fun SmallIconButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     color: Color = Coffee1706Colors.TextColorLighter,
+    stepDelay: Long = 100L,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val pressedListener by rememberUpdatedState(onClick)
+
+    LaunchedEffect(isPressed) {
+        delay(stepDelay * 2)
+        while (isPressed) {
+            delay(stepDelay)
+            pressedListener()
+        }
+    }
+
     IconButton(
         onClick = onClick,
         enabled = enabled,
@@ -97,6 +117,7 @@ private fun SmallIconButton(
         colors = IconButtonDefaults.iconButtonColors(
             contentColor = color,
         ),
+        interactionSource = interactionSource,
     ) {
         Icon(
             imageVector = imageVector,

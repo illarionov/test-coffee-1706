@@ -1,10 +1,13 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.protobuf)
     id("kotlin-parcelize")
 }
 
@@ -92,6 +95,24 @@ ksp {
     }
 }
 
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                id("java") {
+                    option("lite")
+                }
+                id("kotlin") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.activity.compose)
@@ -104,7 +125,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
-    implementation(libs.datastore.preferences)
+    implementation(libs.datastore)
     implementation(libs.google.play.services.location)
     implementation(libs.yandex.mapkit.mobile)
     implementation(libs.hilt)
@@ -113,6 +134,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.protobuf.kotlin.lite)
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlinx.serialization)
 

@@ -1,4 +1,4 @@
-package com.example.coffe1706.feature.coffeeshop.data
+package com.example.coffe1706.data.shoppingcart
 
 import com.example.coffe1706.core.model.LocationId
 import com.example.coffe1706.core.model.MenuItemId

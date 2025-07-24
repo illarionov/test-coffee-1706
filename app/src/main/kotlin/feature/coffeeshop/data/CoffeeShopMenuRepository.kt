@@ -18,7 +18,7 @@ class CoffeeShopMenuRepositoryImpl @Inject constructor(
 ) :  CoffeeShopMenuRepository {
     override suspend fun getMenu(locationId: LocationId): Response<List<MenuItem>> {
         val response = coffee1706DataSource.getLocationMenu(locationId)
-        // TODO: move out
+        // TODO: можно перенести в okhttp interceptor
         if (response is Response.Failure.HttpFailure && response.isUnauthorized()) {
             authRepository.logout()
         }

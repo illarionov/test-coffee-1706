@@ -20,7 +20,7 @@ public class NearestLocationsRepositoryImpl @Inject constructor (
         // XXX сервер не учитывает передаваемое текущее местоположение
         val response: Response<List<Location>> =  nearestCoffeShopsDataSource.getLocations()
 
-        // TODO: move out
+        // TODO: можно перенести в okhttp interceptor
         if (response is Response.Failure.HttpFailure && response.isUnauthorized()) {
             authRepository.logout()
         }

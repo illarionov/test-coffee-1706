@@ -14,9 +14,9 @@ import com.example.coffe1706.core.model.response.map
 import com.example.coffe1706.core.ui.component.snackbar.SnackbarController
 import com.example.coffe1706.core.ui.internationalization.getCommonErrorMessage
 import com.example.coffe1706.core.ui.internationalization.message.LocalizedMessage
+import com.example.coffe1706.data.shoppingcart.ShoppingCart
+import com.example.coffe1706.data.shoppingcart.ShoppingCartRepository
 import com.example.coffe1706.feature.coffeeshop.data.CoffeeShopMenuRepository
-import com.example.coffe1706.feature.coffeeshop.data.ShoppingCart
-import com.example.coffe1706.feature.coffeeshop.data.ShoppingCartRepository
 import com.example.coffe1706.feature.coffeeshop.presentation.CoffeeShopOrderDestination
 import com.example.coffe1706.feature.coffeeshop.presentation.order.OrderScreenState.LoadError
 import com.example.coffe1706.feature.coffeeshop.presentation.order.OrderScreenState.Success
@@ -53,24 +53,22 @@ internal class OrderViewModel @Inject constructor(
 
     val state: StateFlow<OrderScreenState> = locationMenu.combine(
         shoppingCartRepository.shoppingCartFlow(locationId),
-    ) { menuItems: Response<Map<MenuItemId, MenuItem>>, shoppingCart: Response<ShoppingCart> ->
-        if (menuItems is Response.Success && shoppingCart is Response.Success) {
-            val initialItems = initialCartItems ?: shoppingCart.value.items.keys.toList().also {
-                initialCartItems = it
+    ) { menuItems: Response<Map<MenuItemId, MenuItem>>, shoppingCart: ShoppingCart ->
+        when (menuItems) {
+            is Response.Success -> {
+                val initialItems = initialCartItems ?: shoppingCart.items.keys.toList().also {
+                    initialCartItems = it
+                }
+
+                val menu = getShoppingCartWithQuantities(
+                    menuItems = menuItems.value,
+                    initialItems = initialItems,
+                    shoppingCart = shoppingCart,
+                )
+                Success(menu)
             }
 
-            val menu = getShoppingCartWithQuantities(
-                menuItems = menuItems.value,
-                initialItems = initialItems,
-                shoppingCart = shoppingCart.value
-            )
-            Success(menu)
-        } else {
-            if (menuItems is Response.Failure) {
-                LoadError(menuItems.getCommonErrorMessage())
-            } else {
-                LoadError((shoppingCart as Response.Failure).getCommonErrorMessage())
-            }
+            is Response.Failure -> LoadError(menuItems.getCommonErrorMessage())
         }
     }.stateIn(
         scope = viewModelScope,
@@ -91,7 +89,7 @@ internal class OrderViewModel @Inject constructor(
             snackbarController.enqueueMessage(
                 LocalizedMessage(
                     R.string.order_accepted,
-                    listOf(itemsText)
+                    listOf(itemsText),
                 ),
             )
         }

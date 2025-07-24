@@ -46,9 +46,9 @@ import com.example.coffe1706.core.model.LocationId
 import com.example.coffe1706.core.ui.component.snackbar.SnackbarController
 import com.example.coffe1706.core.ui.component.snackbar.subscribeToSnackbarsFlowWithLifecycle
 import com.example.coffe1706.core.ui.theme3.Coffee1706Theme
+import com.example.coffe1706.data.shoppingcart.ShoppingCartRepository
 import com.example.coffe1706.feature.auth.presentation.authNavGraph
 import com.example.coffe1706.feature.auth.presentation.getAuthNavGraphTile
-import com.example.coffe1706.feature.coffeeshop.data.ShoppingCartRepository
 import com.example.coffe1706.feature.coffeeshop.presentation.coffeeShopNavGraph
 import com.example.coffe1706.feature.coffeeshop.presentation.getCoffeeShopGraphTile
 import com.example.coffe1706.feature.nearestcoffeeshops.presentation.list.NearestCoffeeShopsScreen

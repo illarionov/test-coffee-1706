@@ -10,9 +10,9 @@ import com.example.coffe1706.core.model.MenuItemId
 import com.example.coffe1706.core.model.Quantity
 import com.example.coffe1706.core.model.response.Response
 import com.example.coffe1706.core.ui.internationalization.getCommonErrorMessage
+import com.example.coffe1706.data.shoppingcart.ShoppingCart
+import com.example.coffe1706.data.shoppingcart.ShoppingCartRepository
 import com.example.coffe1706.feature.coffeeshop.data.CoffeeShopMenuRepository
-import com.example.coffe1706.feature.coffeeshop.data.ShoppingCart
-import com.example.coffe1706.feature.coffeeshop.data.ShoppingCartRepository
 import com.example.coffe1706.feature.coffeeshop.presentation.menu.MenuScreenState.LoadError
 import com.example.coffe1706.feature.coffeeshop.presentation.menu.MenuScreenState.Success
 import com.example.coffe1706.feature.coffeeshop.presentation.order.OrderItemUiModel
@@ -42,16 +42,14 @@ internal class CoffeeShopMenuViewModel @Inject constructor(
 
     val state: StateFlow<MenuScreenState> = locationMenu.combine(
         shoppingCartRepository.shoppingCartFlow(locationId),
-    ) { menuItems: Response<List<MenuItem>>, shoppingCart: Response<ShoppingCart> ->
-        if (menuItems is Response.Success && shoppingCart is Response.Success) {
-            val menu = getMenuWithQuantities(menuItems.value, shoppingCart.value)
-            Success(menu)
-        } else {
-            if (menuItems is Response.Failure) {
-                LoadError(menuItems.getCommonErrorMessage())
-            } else {
-                LoadError((shoppingCart as Response.Failure).getCommonErrorMessage(),)
+    ) { menuItems: Response<List<MenuItem>>, shoppingCart: ShoppingCart ->
+        when (menuItems) {
+            is Response.Success -> {
+                val menu = getMenuWithQuantities(menuItems.value, shoppingCart)
+                Success(menu)
             }
+
+            is Response.Failure -> LoadError(menuItems.getCommonErrorMessage())
         }
     }.stateIn(
         scope = viewModelScope,

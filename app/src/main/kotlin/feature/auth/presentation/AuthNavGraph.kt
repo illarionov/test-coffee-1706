@@ -15,8 +15,8 @@ import com.example.coffe1706.feature.auth.presentation.LoginRegisterDestination.
 import com.example.coffe1706.feature.auth.presentation.LoginRegisterDestination.Register
 import com.example.coffe1706.feature.auth.presentation.login.LoginScreen
 import com.example.coffe1706.feature.auth.presentation.register.RegisterScreen
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination.Auth
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination.NearestCoffeeShops
+import com.example.coffe1706.feature.root.navigation.TopLevelDestination.Auth
+import com.example.coffe1706.feature.root.navigation.TopLevelDestination.NearestCoffeeShops
 import kotlinx.serialization.Serializable
 
 internal sealed interface LoginRegisterDestination {

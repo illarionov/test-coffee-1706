@@ -16,7 +16,7 @@ import com.example.coffe1706.feature.coffeeshop.data.CoffeeShopMenuRepository
 import com.example.coffe1706.feature.coffeeshop.presentation.menu.MenuScreenState.LoadError
 import com.example.coffe1706.feature.coffeeshop.presentation.menu.MenuScreenState.Success
 import com.example.coffe1706.feature.coffeeshop.presentation.order.OrderItemUiModel
-import com.example.coffe1706.feature.root.presentation.CoffeeShop
+import com.example.coffe1706.feature.root.navigation.CoffeeShop
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted

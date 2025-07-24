@@ -1,4 +1,4 @@
-package com.example.coffe1706.feature.root.presentation
+package com.example.coffe1706.feature.root.navigation
 
 import kotlinx.serialization.Serializable
 

@@ -6,7 +6,6 @@ import androidx.datastore.core.Serializer
 import com.example.coffe1706.core.model.LocationId
 import com.example.coffe1706.core.model.MenuItemId
 import com.example.coffe1706.core.model.Quantity
-import com.example.coffe1706.core.model.response.Response
 import com.example.coffe1706.data.shoppingcart.dto.ShoppingCartDto
 import com.example.coffe1706.data.shoppingcart.dto.ShoppingCartsDto
 import com.example.coffe1706.data.shoppingcart.dto.copy

@@ -53,75 +53,72 @@ import com.example.coffe1706.feature.coffeeshop.presentation.coffeeShopNavGraph
 import com.example.coffe1706.feature.coffeeshop.presentation.getCoffeeShopGraphTile
 import com.example.coffe1706.feature.nearestcoffeeshops.presentation.list.NearestCoffeeShopsScreen
 import com.example.coffe1706.feature.nearestcoffeeshops.presentation.map.NearestCoffeShopsMapScreen
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination.Auth
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination.NearestCoffeeShops
+import com.example.coffe1706.feature.root.navigation.CoffeeShop
+import com.example.coffe1706.feature.root.navigation.NearestCoffeeShopsMap
+import com.example.coffe1706.feature.root.navigation.TopLevelDestination
+import com.example.coffe1706.feature.root.navigation.TopLevelDestination.Auth
+import com.example.coffe1706.feature.root.navigation.TopLevelDestination.NearestCoffeeShops
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.runningFold
 import kotlinx.coroutines.launch
 
 @Composable
-internal fun Coffee1706RootScreen(
+internal fun Coffee1706Screen(
     authManager: AuthManager,
     snackbarController: SnackbarController,
     modifier: Modifier = Modifier,
     shoppingCartRepository: ShoppingCartRepository? = null,
     navController: NavHostController = rememberNavController(),
 ) {
-    val isUserLoggedIn: Boolean? by authManager.isUserLoggedIn.collectAsState(initial = null)
-    LaunchedEffect(isUserLoggedIn) {
-        if (isUserLoggedIn == false) {
-            navController.navigate(route = Auth) {
-                launchSingleTop = true
-                popUpTo(NearestCoffeeShops) { inclusive = true }
-            }
-        }
-    }
-
     val snackbarHostState = remember { SnackbarHostState() }
     subscribeToSnackbarsFlowWithLifecycle(snackbarController, snackbarHostState)
 
+    LaunchedEffect(authManager) {
+        authManager.isUserLoggedIn
+            .runningFold(Pair<Boolean?, Boolean?>(null, null)) { old, new -> old.second to new }
+            .collect { (old, new) ->
+                if (old == true && new == false) {
+                    navController.navigate(route = Auth) {
+                        launchSingleTop = true
+                        popUpTo(NearestCoffeeShops) { inclusive = true }
+                    }
+                }
+            }
+    }
+
+    val isUserLoggedIn: Boolean? by authManager.isUserLoggedIn.collectAsState(initial = null)
+    val currentUserLoggedIn = isUserLoggedIn
+    if (currentUserLoggedIn != null) {
+        val startDestination = if (currentUserLoggedIn) {
+            NearestCoffeeShops
+        } else {
+            Auth
+        }
+
+        Scaffold(
+            modifier = modifier,
+            navController = navController,
+            snackbarHostState = snackbarHostState,
+            shoppingCartRepository = shoppingCartRepository,
+            startDestination = startDestination,
+        )
+    } else {
+        /* Content loading Placeholder */
+    }
+}
+
+@Composable
+private fun Scaffold(
+    navController: NavHostController,
+    snackbarHostState: SnackbarHostState,
+    shoppingCartRepository: ShoppingCartRepository?,
+    startDestination: TopLevelDestination,
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         modifier = modifier,
         topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier.shadow(elevation = 4.dp),
-                title = {
-                    val backStackEntry by navController.currentBackStackEntryAsState()
-                    val titleResId = backStackEntry?.destination.getNavDestinationTitle()
-                    val title = if (titleResId != null) {
-                        stringResource(titleResId)
-                    } else {
-                        ""
-                    }
-                    Text(
-                        text = title,
-                    )
-                },
-                navigationIcon = {
-                    val backStackEntry by navController.currentBackStackEntryAsState()
-                    val currentEntry = backStackEntry
-                    if (currentEntry != null && navController.previousBackStackEntry != null) {
-                        IconButton(
-                            onClick = {
-                                navController.navigate(route = NearestCoffeeShops) {
-                                    launchSingleTop = true
-                                    popUpTo(route = NearestCoffeeShops) {
-                                        inclusive = false
-                                    }
-                                }
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = stringResource(R.string.button_navigate_up_content_description),
-                            )
-                        }
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                    scrolledContainerColor = MaterialTheme.colorScheme.surface,
-                ),
-            )
+            TopAppBar(navController)
         },
         snackbarHost = {
             SnackbarHost(
@@ -133,7 +130,6 @@ internal fun Coffee1706RootScreen(
         val coroutineScope = rememberCoroutineScope()
 
         SharedTransitionLayout {
-            val startDestination = NearestCoffeeShops
             NavHost(
                 navController = navController,
                 startDestination = startDestination,
@@ -181,12 +177,56 @@ internal fun Coffee1706RootScreen(
     }
 }
 
+@Composable
+private fun TopAppBar(navController: NavHostController) {
+    CenterAlignedTopAppBar(
+        modifier = Modifier.shadow(elevation = 4.dp),
+        title = {
+            val backStackEntry by navController.currentBackStackEntryAsState()
+            val titleResId = backStackEntry?.destination.getNavDestinationTitle()
+            val title = if (titleResId != null) {
+                stringResource(titleResId)
+            } else {
+                ""
+            }
+            Text(
+                text = title,
+            )
+        },
+        navigationIcon = {
+            val backStackEntry by navController.currentBackStackEntryAsState()
+            val currentEntry = backStackEntry
+            if (currentEntry != null && navController.previousBackStackEntry != null) {
+                IconButton(
+                    onClick = {
+                        navController.navigate(route = NearestCoffeeShops) {
+                            launchSingleTop = true
+                            popUpTo(route = NearestCoffeeShops) {
+                                inclusive = false
+                            }
+                        }
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.button_navigate_up_content_description),
+                    )
+                }
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.surface,
+        ),
+    )
+}
+
 @StringRes
 private fun NavDestination?.getNavDestinationTitle(): Int? {
     return when {
         this == null -> null
-        this.hasRoute<NearestCoffeeShops>() -> R.string.screen_title_nearest_coffee_shops
-        this.hasRoute<NearestCoffeeShopsMap>() -> R.string.screen_title_nearest_coffee_shops_map
+        hasRoute<NearestCoffeeShops>() -> R.string.screen_title_nearest_coffee_shops
+        hasRoute<NearestCoffeeShopsMap>() -> R.string.screen_title_nearest_coffee_shops_map
         else -> listOf(
             ::getAuthNavGraphTile,
             ::getCoffeeShopGraphTile,
@@ -200,7 +240,7 @@ private fun NavDestination?.getNavDestinationTitle(): Int? {
 @Composable
 private fun PreviewCoffee1706RootScreen() {
     Coffee1706Theme {
-        Coffee1706RootScreen(
+        Coffee1706Screen(
             authManager = object : AuthManager {
                 override val isUserLoggedIn = flowOf(false)
             },

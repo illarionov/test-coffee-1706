@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Coffee1706Theme {
-                Coffee1706RootScreen(
+                Coffee1706Screen(
                     authManager = authManager,
                     snackbarController = snackbarController,
                     modifier = Modifier.semantics {

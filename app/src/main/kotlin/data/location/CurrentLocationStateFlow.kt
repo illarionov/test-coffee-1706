@@ -13,6 +13,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
+/**
+ * StateFlow с текущем местоположением.
+ *
+ * Подписывается на [currentLocationDataSource], когда было выдно разрешение на местоположение
+ * и в [flow] эммитит обновления местоположения.
+ *
+ * Требует ручного вызова setLocationPermissionGranted(), когда изменился статус разрешения местоположения
+ */
 class CurrentLocationStateFlow(
     private val scope: CoroutineScope,
     private val currentLocationDataSource: CurrentLocationDataSource,

@@ -39,6 +39,7 @@
     <string name="error_failed_to_get_current_location">Unable to determine current location</string>
     <string name="order_accepted">Заказ принят: %s</string>
     <string name="button_navigate_up_content_description">В начало</string>
+    <string name="screen_title_nearest_coffee_shops_map">Карта</string>
     <plurals name="meters_from_you">
         <item quantity="one">%d метр от вас</item>
         <item quantity="few">%d метра от вас</item>

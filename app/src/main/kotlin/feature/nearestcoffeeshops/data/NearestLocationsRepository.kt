@@ -9,14 +9,14 @@ import com.example.coffe1706.feature.auth.data.AuthRepository
 import javax.inject.Inject
 
 public interface NearestLocationsRepository {
-    suspend fun getNearestLocations(location: LatLon): Response<List<Location>>
+    suspend fun getNearestLocations(location: LatLon?): Response<List<Location>>
 }
 
 public class NearestLocationsRepositoryImpl @Inject constructor (
     private val nearestCoffeShopsDataSource: Coffee1706NetworkDataSource,
     private val authRepository: AuthRepository,
 ) : NearestLocationsRepository {
-    override suspend fun getNearestLocations(location: LatLon): Response<List<Location>> {
+    override suspend fun getNearestLocations(location: LatLon?): Response<List<Location>> {
         // XXX сервер не учитывает передаваемое текущее местоположение
         val response: Response<List<Location>> =  nearestCoffeShopsDataSource.getLocations()
 

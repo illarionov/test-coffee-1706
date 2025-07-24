@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 
-package com.example.coffe1706.feature.nearestcoffeeshops.presentation
+package com.example.coffe1706.feature.nearestcoffeeshops.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

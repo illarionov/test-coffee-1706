@@ -18,8 +18,8 @@ import com.example.coffe1706.R
 import com.example.coffe1706.core.model.LocationId
 import com.example.coffe1706.feature.coffeeshop.presentation.menu.CoffeeShopMenuScreen
 import com.example.coffe1706.feature.coffeeshop.presentation.order.OrderScreen
-import com.example.coffe1706.feature.root.presentation.TopLevelDestination
 import com.example.coffe1706.feature.root.presentation.CoffeeShop
+import com.example.coffe1706.feature.root.presentation.TopLevelDestination
 import kotlinx.serialization.Serializable
 
 @Serializable

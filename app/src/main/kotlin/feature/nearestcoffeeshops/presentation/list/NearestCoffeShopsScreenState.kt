@@ -1,4 +1,4 @@
-package com.example.coffe1706.feature.nearestcoffeeshops.presentation
+package com.example.coffe1706.feature.nearestcoffeeshops.presentation.list
 
 import com.example.coffe1706.core.ui.internationalization.message.LocalizedMessage
 import com.example.coffe1706.feature.nearestcoffeeshops.domain.NearestLocation

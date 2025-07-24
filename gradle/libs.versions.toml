@@ -16,6 +16,7 @@ hilt = "2.57"
 kotlinxSerializationJson = "1.9.0"
 ksp = "2.2.0-2.0.2"
 navigation = "2.9.2"
+yandex-mapkit-lite = "4.18.0-lite"
 hilt-navigation-compose = "1.2.0"
 okhttp = "5.1.0"
 retrofit = "3.0.0"
@@ -41,6 +42,7 @@ coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref 
 coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 google-play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "gms-location" }
+yandex-mapkit-mobile = { group = "com.yandex.android", name = "maps.mobile", version.ref = "yandex-mapkit-lite" }
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }

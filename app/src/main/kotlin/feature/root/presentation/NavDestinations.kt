@@ -7,4 +7,6 @@ sealed interface TopLevelDestination {
     @Serializable object NearestCoffeeShops : TopLevelDestination
 }
 
+@Serializable object NearestCoffeeShopsMap
+
 @Serializable data class CoffeeShop(val locationId: String)

@@ -1,4 +1,4 @@
-package com.example.coffe1706.feature.nearestcoffeeshops.presentation
+package com.example.coffe1706.feature.nearestcoffeeshops.presentation.list
 
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
@@ -69,7 +69,6 @@ internal fun NearestCoffeeShopsScreen(
             }
         },
     )
-
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(

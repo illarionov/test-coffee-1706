@@ -38,6 +38,7 @@
     <string name="error_failed_to_get_current_location">Unable to determine current location</string>
     <string name="order_accepted">Order accepted: %s</string>
     <string name="button_navigate_up_content_description">Navigate up</string>
+    <string name="screen_title_nearest_coffee_shops_map">Map</string>
     <plurals name="meters_from_you">
         <item quantity="zero">Less than a meter from you</item>
         <item quantity="one">%d meter from you</item>

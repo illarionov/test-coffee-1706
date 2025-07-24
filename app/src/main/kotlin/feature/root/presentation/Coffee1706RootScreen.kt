@@ -51,7 +51,8 @@ import com.example.coffe1706.feature.auth.presentation.getAuthNavGraphTile
 import com.example.coffe1706.feature.coffeeshop.data.ShoppingCartRepository
 import com.example.coffe1706.feature.coffeeshop.presentation.coffeeShopNavGraph
 import com.example.coffe1706.feature.coffeeshop.presentation.getCoffeeShopGraphTile
-import com.example.coffe1706.feature.nearestcoffeeshops.presentation.NearestCoffeeShopsScreen
+import com.example.coffe1706.feature.nearestcoffeeshops.presentation.list.NearestCoffeeShopsScreen
+import com.example.coffe1706.feature.nearestcoffeeshops.presentation.map.NearestCoffeShopsMapScreen
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.Auth
 import com.example.coffe1706.feature.root.presentation.TopLevelDestination.NearestCoffeeShops
 import kotlinx.coroutines.flow.flowOf
@@ -155,7 +156,16 @@ internal fun Coffee1706RootScreen(
                         onLocationClick = { locationId: LocationId ->
                             navController.navigate(route = CoffeeShop(locationId.id))
                         },
-                        onShowOnMapClick = { /* TODO */ },
+                        onShowOnMapClick = {
+                            navController.navigate(route = NearestCoffeeShopsMap)
+                        },
+                    )
+                }
+                composable<NearestCoffeeShopsMap> {
+                    NearestCoffeShopsMapScreen(
+                        onLocationClick = { locationId: LocationId ->
+                            navController.navigate(route = CoffeeShop(locationId.id))
+                        },
                     )
                 }
                 coffeeShopNavGraph(
@@ -176,6 +186,7 @@ private fun NavDestination?.getNavDestinationTitle(): Int? {
     return when {
         this == null -> null
         this.hasRoute<NearestCoffeeShops>() -> R.string.screen_title_nearest_coffee_shops
+        this.hasRoute<NearestCoffeeShopsMap>() -> R.string.screen_title_nearest_coffee_shops_map
         else -> listOf(
             ::getAuthNavGraphTile,
             ::getCoffeeShopGraphTile,

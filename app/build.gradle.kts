@@ -23,6 +23,11 @@ android {
         val apiUrl = providers.environmentVariable("COFFEE_1706_API_URL")
             .getOrElse("http://212.41.30.90:35005/")
         buildConfigField("String", "COFFEE_1706_API_URL", "\"$apiUrl\"")
+
+        val yandexMapkitKey = providers.environmentVariable("YANDEX_MAPKIT_MOBILE_KEY")
+            .orElse(providers.gradleProperty("yandex.mobileMapKey"))
+            .get()
+        buildConfigField("String", "YANDEX_MAPKIT_MOBILE_KEY", "\"$yandexMapkitKey\"")
     }
 
     signingConfigs {
@@ -101,6 +106,7 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.datastore.preferences)
     implementation(libs.google.play.services.location)
+    implementation(libs.yandex.mapkit.mobile)
     implementation(libs.hilt)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.kotlinx.serialization.json)

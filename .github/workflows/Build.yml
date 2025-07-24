@@ -64,6 +64,11 @@ jobs:
           junit_files: '**/build/test-results/**/*.xml'
           check_name: "Test results"
 
+      - name: Archive mappings
+        if: ${{ !cancelled() }}
+        run: >
+          tar -c -I 'zstd -19 -T0' -f mappings.tar.zst app/build/outputs/mapping/release/
+
       - name: Create release on Github
         uses: softprops/action-gh-release@v2
         env:
@@ -71,6 +76,6 @@ jobs:
         with:
           files: |
             app/build/outputs/apk/release/app-release.apk
-            app/build/outputs/mapping/release/*
+            mappings.tar.zst
           draft: true
           prerelease: true

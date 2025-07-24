@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Coffee1706">
         <activity
-            android:name=".feature.root.presentation.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Coffee1706"
             android:windowSoftInputMode="adjustResize"

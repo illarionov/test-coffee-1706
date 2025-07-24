@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_failed_to_get_current_location">Unable to determine current location</string>
+    <string name="button_show_on_map">Show on map</string>
+    <string name="location_permission_required">To show nearby coffee shops, we need access to your location</string>
+    <string name="button_approve_location_permission">Approve</string>
+    <string name="message_no_coffee_shops_nearby">There are no coffee shops nearby</string>
+    <string name="screen_title_nearest_coffee_shops">Nearest Coffee Shops</string>
+    <string name="screen_title_nearest_coffee_shops_map">Map</string>
+</resources>

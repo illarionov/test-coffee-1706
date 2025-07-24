@@ -1,32 +1,27 @@
 package com.example.coffe1706.wiring
 
-import com.example.coffe1706.core.authmanager.AuthManager
-import com.example.coffe1706.data.coffee1706api.datasource.Coffee1706SessionDataSource
-import com.example.coffe1706.data.coffee1706api.datasource.Coffee1706SessionDataSourceImpl
+import android.content.Context
+import com.example.coffe1706.core.ui.component.snackbar.SnackbarController
 import com.example.coffe1706.data.location.CurrentLocationDataSource
 import com.example.coffe1706.data.location.FusedCurrentLocationDataSource
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
     @Provides
-    fun providesAuthManager(sessionSource: Coffee1706SessionDataSource): AuthManager = sessionSource
+    @Singleton
+    fun providesSnackbarController(): SnackbarController = SnackbarController()
 
-    @Module
-    @InstallIn(SingletonComponent::class)
-    public interface AppModuleBinds {
-        @Binds
-        @Reusable
-        fun bindsSessionDataSource(impl: Coffee1706SessionDataSourceImpl): Coffee1706SessionDataSource
-
-        @Binds
-        @Reusable
-        fun bindsCurrentLocationDataSource(impl: FusedCurrentLocationDataSource): CurrentLocationDataSource
-    }
+    @Provides
+    @Reusable
+    fun providesCurrentLocationDataSource(
+        @ApplicationContext context: Context,
+    ): CurrentLocationDataSource = FusedCurrentLocationDataSource(context)
 }

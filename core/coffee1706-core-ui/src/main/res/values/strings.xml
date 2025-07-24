@@ -1,0 +1,28 @@
+<resources>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="remove_from_cart">Remove from cart</string>
+    <string name="response_error_api_failure">Server error</string>
+    <string name="response_error_unknown_http_code_failure">Unknown server response code (%1$d)</string>
+    <string name="response_error_user_input_error">Error in entered data</string>
+    <string name="response_error_user_not_found">User not found</string>
+    <string name="response_error_authorization_error">Authorization error: code %1$d `%2$s`</string>
+    <string name="response_error_unknown_failure">Unknown network or server error</string>
+    <string name="response_error_no_internet_connection">No Internet connection</string>
+    <string name="response_error_network_failure">Network error</string>
+    <string name="response_error_server_temporarily_error">Temporary server error, try again later</string>
+    <string name="response_error_user_unathorized">User is not authorized</string>
+    <plurals name="meters_from_you">
+        <item quantity="zero">Less than a meter from you</item>
+        <item quantity="one">%d meter from you</item>
+        <item quantity="few">%d meters from you</item>
+        <item quantity="many">%d meters from you</item>
+        <item quantity="other">%d meters from you</item>
+    </plurals>
+    <plurals name="kilometers_from_you">
+        <item quantity="zero">Less than a kilometer from you</item>
+        <item quantity="one">%s km from you</item>
+        <item quantity="few">%s km from you</item>
+        <item quantity="many">%s km from you</item>
+        <item quantity="other">%s km from you</item>
+    </plurals>
+</resources>

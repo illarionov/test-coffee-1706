@@ -1,5 +1,8 @@
 package com.example.coffe1706.wiring
 
+import com.example.coffe1706.core.di.AppMainCoroutineScope
+import com.example.coffe1706.core.di.ComputationDispatcher
+import com.example.coffe1706.core.di.IoCoroutineDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -7,7 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
@@ -25,9 +27,5 @@ object CoroutinesModule {
 
     @Provides
     @ComputationDispatcher
-    fun providesComputationDispathcerContext(): CoroutineContext = Dispatchers.Default
-
-    @Qualifier annotation class AppMainCoroutineScope
-    @Qualifier annotation class IoCoroutineDispatcher
-    @Qualifier annotation class ComputationDispatcher
+    fun providesComputationDispatcherContext(): CoroutineContext = Dispatchers.Default
 }

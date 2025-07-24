@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.example.coffe1706.data.coffee1706api.datasource.dto";
+option java_multiple_files = true;
+option optimize_for = LITE_RUNTIME;
+
+message AuthTokenDto {
+    optional string token = 1;
+}

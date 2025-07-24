@@ -1,13 +1,11 @@
-import com.google.protobuf.gradle.id
-
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.protobuf)
+    id("com.example.coffe1706.gradle.android.hilt.ksp")
+    id("com.example.coffe1706.gradle.android.compose")
     id("kotlin-parcelize")
 }
 
@@ -64,8 +62,8 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        compose = true
         buildConfig = true
+        resValues = true
     }
 }
 
@@ -77,66 +75,32 @@ kotlin.compilerOptions {
     )
 }
 
-composeCompiler {
-    stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
-    reportsDestination = layout.buildDirectory.dir("compose_compiler")
-    metricsDestination = layout.buildDirectory.dir("compose_compiler")
-}
-
-ksp {
-    // https://dagger.dev/dev-guide/compiler-options.html
-    listOf(
-        "fastInit",
-        "ignoreProvisionKeyWildcards",
-        "strictMultibindingValidation",
-        "useBindingGraphFix",
-    ).forEach {
-        arg("-Adagger.$it", "ENABLED")
-    }
-}
-
-protobuf {
-    protoc {
-        artifact = libs.protobuf.protoc.get().toString()
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-                id("kotlin") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
 
 dependencies {
+    implementation(projects.core.coffee1706CoreModel)
+    implementation(projects.core.coffee1706CoreDi)
+    implementation(projects.core.coffee1706CoreUi)
+    implementation(projects.core.coffee1706CoreUiNavigation)
+    implementation(projects.data.coffee1706DataServiceapi)
+    implementation(projects.data.coffee1706DataLocation)
+    implementation(projects.data.coffee1706DataShoppingcart)
+    implementation(projects.feature.coffee1706FeatureAuth)
+    implementation(projects.feature.coffee1706FeatureNearestcoffeeshops)
+    implementation(projects.feature.coffee1706FeatureCoffeeshop)
+
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.datastore)
-    implementation(libs.google.play.services.location)
-    implementation(libs.yandex.mapkit.mobile)
     implementation(libs.hilt)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.navigation.compose)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.protobuf.kotlin.lite)
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.kotlinx.serialization)
 
     implementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)

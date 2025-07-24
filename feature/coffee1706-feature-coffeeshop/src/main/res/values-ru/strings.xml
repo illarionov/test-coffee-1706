@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_title_coffee_shop_menu">Меню</string>
+    <string name="screen_title_coffee_shop_order">Ваш заказ</string>
+    <string name="order_accepted">Заказ принят: %s</string>
+    <string name="message_no_menu_items">Сейчас ничего не продаётся — мы уже работаем над этим!</string>
+    <string name="button_proceed_to_payment">Перейти к оплате</string>
+    <string name="price_rub">%1$s руб</string>
+    <string name="estimated_time_thank_for_choosing_us">Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!</string>
+    <string name="button_checkout">Оплатить</string>
+
+</resources>

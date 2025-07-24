@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_title_login">Вход</string>
+    <string name="screen_title_register">Регистрация</string>
+
+    <string name="button_login">Войти</string>
+    <string name="button_navigate_to_register">Зарегистрироваться</string>
+    <string name="login_register_field_title_reenter_password">Повторите пароль</string>
+    <string name="login_register_field_title_e_mail">E-Mail</string>
+    <string name="login_register_field_title_password">Пароль</string>
+    <string name="button_register">Регистрация</string>
+    <string name="button_navigate_to_login">Вход</string>
+    <string name="password_do_not_match">Пароли не совпадают</string>
+</resources>

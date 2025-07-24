@@ -1,0 +1,25 @@
+<resources>
+    <string name="add_to_cart">Добавить в заказ</string>
+    <string name="remove_from_cart">Удалить из заказа</string>
+    <string name="response_error_api_failure">Ошика на стороне сервера</string>
+    <string name="response_error_unknown_http_code_failure">Ошибка на стороне сервера (%1$d)</string>
+    <string name="response_error_user_input_error">Ошибка в введенных данных</string>
+    <string name="response_error_user_not_found">Пользователь не найден</string>
+    <string name="response_error_authorization_error">Ошибка авторизации. Код: %1$d, `%2$s`</string>
+    <string name="response_error_unknown_failure">Ошибка сети или сервера</string>
+    <string name="response_error_no_internet_connection">Сеть недоступна</string>
+    <string name="response_error_network_failure">Ошибка сети</string>
+    <string name="response_error_server_temporarily_error">Временная ошибка на сервере, попробкйте позже</string>
+    <string name="response_error_user_unathorized">Пользователь не авторизован</string>
+    <plurals name="meters_from_you">
+        <item quantity="one">%d метр от вас</item>
+        <item quantity="few">%d метра от вас</item>
+        <item quantity="many">%d метров от вас</item>
+    </plurals>
+    <plurals name="kilometers_from_you">
+        <item quantity="one">%s км от вас</item>
+        <item quantity="few">%s км от вас</item>
+        <item quantity="many">%s км от вас</item>
+        <item quantity="other">%s км от вас</item>
+    </plurals>
+</resources>

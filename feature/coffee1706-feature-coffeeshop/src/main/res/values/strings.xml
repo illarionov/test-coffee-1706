@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_title_coffee_shop_menu">Menu</string>
+    <string name="screen_title_coffee_shop_order">Your order</string>
+    <string name="order_accepted">Order accepted: %s</string>
+    <string name="message_no_menu_items">Nothing is available right now — we’re already working on it!</string>
+    <string name="button_proceed_to_payment">Proceed to Payment</string>
+    <string name="price_rub">%1$s rub</string>
+    <string name="estimated_time_thank_for_choosing_us">Estimated wait time:\n15 minutes.\nThank you for choosing us!</string>
+    <string name="button_checkout">Checkout</string>
+</resources>

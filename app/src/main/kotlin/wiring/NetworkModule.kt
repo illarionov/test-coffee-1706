@@ -2,29 +2,29 @@ package com.example.coffe1706.wiring
 
 import android.content.Context
 import com.example.coffe1706.BuildConfig
-import com.example.coffe1706.data.coffee1706api.datasource.Coffee1706SessionDataSource
-import com.example.coffe1706.data.coffee1706api.retrofit.Coffee1706RetrofitFactory
-import com.example.coffe1706.data.coffee1706api.retrofit.okhttp.AuthHeaderInterceptor
-import com.example.coffe1706.data.coffee1706api.retrofit.service.Coffee1706Service
+import com.example.coffe1706.core.di.ComputationDispatcher
+import com.example.coffe1706.data.coffee1706api.Coffee1706NetworkDataSource
+import com.example.coffe1706.data.coffee1706api.session.Coffee1706SessionDataSource
+import com.example.coffe1706.data.coffee1706api.util.okhttp.Coffee1706AuthHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
 import okhttp3.Cache
+import okhttp3.Call
 import okhttp3.ConnectionPool
 import okhttp3.Dispatcher
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.create
 import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
@@ -34,22 +34,26 @@ public object NetworkModule {
     private const val OKHTTP_CACHE_SUBDIR = "coffee1706"
 
     @Provides
-    @Reusable
-    internal fun providesCoffee1706Service(
-        @Coffee1706Client retrofit: Retrofit,
-    ): Coffee1706Service = retrofit.create<Coffee1706Service>()
-
-    @Provides
     @Singleton
-    @Coffee1706Client
-    fun providesCoffee1706Retrofit(
+    internal fun providesCoffee1706NetworkDataSource(
         @Coffee1706Client okhttpClient: dagger.Lazy<@JvmSuppressWildcards OkHttpClient>,
-        json: Json,
+        @ComputationDispatcher computationDispatcher: CoroutineContext,
         @Coffee1706Client baseUrl: String,
-    ): Retrofit {
-        return Coffee1706RetrofitFactory.createRetrofit(okhttpClient::get, json, baseUrl)
+    ): Coffee1706NetworkDataSource {
+        val lazyCallFactory = Call.Factory { request: Request ->
+            okhttpClient.get().newCall(request)
+        }
+
+        return Coffee1706NetworkDataSource(
+            callFactory = lazyCallFactory,
+            baseUrl = baseUrl,
+            computationDispatcherContext = computationDispatcher,
+        )
     }
 
+    /**
+     * Okhhtp клиент для Coffee API с auth interceptor
+     */
     @Provides
     @Singleton
     @Coffee1706Client
@@ -59,7 +63,7 @@ public object NetworkModule {
         sessionDataSource: Coffee1706SessionDataSource,
         @LoggingInterceptor loggingInterceptor: Interceptor?,
     ): OkHttpClient {
-        val authHeaderInterceptor = AuthHeaderInterceptor(
+        val authHeaderInterceptor = Coffee1706AuthHeaderInterceptor(
             tokenProvider = sessionDataSource::getTokenBlocking
         )
 
@@ -90,6 +94,11 @@ public object NetworkModule {
         )
     }
 
+    /**
+     * Базовый okhttp клиент, от которого создаются клиенты под конкретные сервисы.
+     *
+     * Используется для Coil и для сервера Coffee.
+     */
     @Provides
     @Singleton
     @RootOkhttpClient
@@ -126,10 +135,6 @@ public object NetworkModule {
             null
         }
     }
-
-    @Provides
-    @Reusable
-    fun providesJson(): Json = Json
 
     @Qualifier
     annotation class RootOkhttpClient

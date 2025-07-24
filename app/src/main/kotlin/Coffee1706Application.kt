@@ -10,8 +10,8 @@ import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
+import com.example.coffe1706.feature.nearestcoffeeshops.Initializer.initYandexMapkit
 import com.example.coffe1706.wiring.NetworkModule.RootOkhttpClient
-import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class Coffee1706Application : SingletonImageLoader.Factory, Application() {
     override fun onCreate() {
         super.onCreate()
         setupStrictMode()
-        initYandexMapkit()
+        initYandexMapkit(BuildConfig.YANDEX_MAPKIT_MOBILE_KEY)
     }
 
     private companion object {
@@ -65,10 +65,6 @@ class Coffee1706Application : SingletonImageLoader.Factory, Application() {
                     }
                 }.build(),
             )
-        }
-
-        private fun initYandexMapkit() {
-            MapKitFactory.setApiKey(BuildConfig.YANDEX_MAPKIT_MOBILE_KEY)
         }
     }
 
